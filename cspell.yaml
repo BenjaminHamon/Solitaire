@@ -10,8 +10,11 @@ files:
 
 ignorePaths:
   - "__pycache__/"
+  - ".venv-automation/"
   - ".venv/"
   - "*.egg-info/"
+  - "**/__pycache__/"
+  - "**/*.egg-info/"
   - "/Artifacts/"
   - "/Automation/Scripts/build/"
   - "/Automation/Scripts/dist/"

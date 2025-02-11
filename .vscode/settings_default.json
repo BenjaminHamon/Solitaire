@@ -1,0 +1,20 @@
+{
+	"$schema": "./schema.json",
+
+	// Isort
+	"isort.args": [ "--settings-file", ".isort.cfg" ],
+
+	// Python
+	"python.analysis.diagnosticMode": "workspace",
+	"python.analysis.extraPaths": [ "./Automation/Scripts" ],
+	"python.analysis.include": [ "Automation" ],
+	"python.analysis.typeCheckingMode": "basic",
+	"python.defaultInterpreterPath": "${workspaceFolder}/.venv-automation/scripts/python",
+
+	// Pylint
+	"pylint.interpreter": [ "${workspaceFolder}/.venv-automation/scripts/python" ],
+
+	// Pytest
+	"python.testing.pytestArgs": [ "-c", "${workspaceFolder}/pytest.ini", "Automation" ],
+	"python.testing.pytestEnabled": true,
+}
