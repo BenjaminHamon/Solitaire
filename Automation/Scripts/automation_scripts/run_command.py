@@ -6,6 +6,7 @@ from typing import List
 from bhamon_development_toolkit.asyncio_extensions.asyncio_context import AsyncioContext
 from bhamon_development_toolkit.automation.automation_command import AutomationCommand
 
+from automation_scripts.commands.clean_command import CleanCommand
 from automation_scripts.commands.info_command import InfoCommand
 from automation_scripts.configuration import configuration_manager
 from automation_scripts.helpers import automation_helpers
@@ -47,6 +48,7 @@ def create_argument_parser(command_collection: List[AutomationCommand]) -> argpa
 
 def create_command_collection() -> List[AutomationCommand]:
     return [
+        CleanCommand(),
         InfoCommand(),
     ]
 
