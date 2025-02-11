@@ -1,0 +1,46 @@
+# cspell:words asyncio pyright pylint pytest setuptools
+
+[build-system]
+requires = [ "setuptools >= 64" ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "automation-scripts"
+version = "1.0.0+development"
+description = "Automation scripts for the local project"
+requires-python = ">= 3.9"
+
+authors = [
+    { name = "Benjamin Hamon", email = "development@benjaminhamon.com" }
+]
+
+maintainers = [
+    { name = "Benjamin Hamon", email = "development@benjaminhamon.com" }
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+
+dependencies = [
+    "bhamon-development-toolkit[python] ~= 3.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mockito ~= 1.5.4",
+    "pylint ~= 3.2.7",
+    "pyright ~= 1.1.393",
+    "pytest ~= 8.3.4",
+    "pytest-asyncio ~= 0.25.3",
+    "pytest-json ~= 0.4.0",
+]
+
+[project.urls]
+"Source" = "https://github.com/BenjaminHamon/Solitaire"
+
+[project.scripts]
+automation = "automation_scripts.run_command:main"
