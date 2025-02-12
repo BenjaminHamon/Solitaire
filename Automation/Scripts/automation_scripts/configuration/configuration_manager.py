@@ -63,7 +63,7 @@ def load_unity_development_configuration() -> UnityDevelopmentConfiguration:
             UnityProject(
                 identifier = "UnityClient",
                 path = "UnityClient",
-                command_namespace = "Overmind.Solitaire.UnityClient.Editor.EditorCommand"),
+                command_namespace = "BenjaminHamon.Solitaire.UnityClient.Editor.EditorCommand"),
         ]
     )
 

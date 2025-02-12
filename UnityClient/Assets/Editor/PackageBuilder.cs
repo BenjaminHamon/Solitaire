@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 
-namespace Overmind.Solitaire.UnityClient.Editor
+namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
 	public static class PackageBuilder
 	{

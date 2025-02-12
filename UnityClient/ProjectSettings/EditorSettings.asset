@@ -17,7 +17,7 @@ EditorSettings:
   m_EtcTextureNormalCompressor: 2
   m_EtcTextureBestCompressor: 4
   m_ProjectGenerationIncludedExtensions: txt;xml;fnt;cd;asmdef;rsp;asmref
-  m_ProjectGenerationRootNamespace: Overmind.Solitaire.UnityClient
+  m_ProjectGenerationRootNamespace: BenjaminHamon.Solitaire.UnityClient
   m_CollabEditorSettings:
     inProgressEnabled: 1
   m_EnableTextureStreamingInEditMode: 1

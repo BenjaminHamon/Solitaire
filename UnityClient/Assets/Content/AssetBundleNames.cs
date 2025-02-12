@@ -1,4 +1,4 @@
-﻿namespace Overmind.Solitaire.UnityClient.Content
+﻿namespace BenjaminHamon.Solitaire.UnityClient.Content
 {
 	public static class AssetBundleNames
 	{

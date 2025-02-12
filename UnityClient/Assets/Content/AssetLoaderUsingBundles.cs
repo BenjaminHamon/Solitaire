@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Overmind.Solitaire.UnityClient.Content
+namespace BenjaminHamon.Solitaire.UnityClient.Content
 {
 	public class AssetLoaderUsingBundles : IAssetLoader<UnityEngine.Object>
 	{

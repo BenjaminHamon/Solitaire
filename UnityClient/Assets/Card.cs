@@ -1,10 +1,10 @@
-﻿using Overmind.Solitaire.UnityClient.Content;
+﻿using BenjaminHamon.Solitaire.UnityClient.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Overmind.Solitaire.UnityClient
+namespace BenjaminHamon.Solitaire.UnityClient
 {
 	public class Card : MonoBehaviour
 	{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Overmind.Solitaire.UnityClient.Editor
+namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
 	public static class EditorCommandHelpers
 	{

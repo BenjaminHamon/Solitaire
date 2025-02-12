@@ -1,15 +1,15 @@
-﻿using Overmind.Solitaire.UnityClient.Content;
+﻿using BenjaminHamon.Solitaire.UnityClient.Content;
 using System;
 using System.IO;
 using UnityEngine;
 
-namespace Overmind.Solitaire.UnityClient
+namespace BenjaminHamon.Solitaire.UnityClient
 {
 	/// <summary>Global static class to keep state between scenes.</summary>
 	public static class Application
 	{
-		public static string ApplicationTitle { get { return "Overmind Solitaire"; } }
-		public static string ApplicationFullName { get { return "Overmind.Solitare.UnityClient"; } }
+		public static string ApplicationTitle { get { return "BenjaminHamon Solitaire"; } }
+		public static string ApplicationFullName { get { return "BenjaminHamon.Solitare.UnityClient"; } }
 
 #if UNITY_EDITOR
 		private static bool UseAssetBundlesInEditor = false;

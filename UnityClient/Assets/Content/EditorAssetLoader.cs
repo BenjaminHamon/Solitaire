@@ -5,7 +5,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Overmind.Solitaire.UnityClient.Content
+namespace BenjaminHamon.Solitaire.UnityClient.Content
 {
 	public class EditorAssetLoader : IAssetLoader<UnityEngine.Object>
 	{

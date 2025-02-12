@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Overmind.Solitaire.UnityClient.Editor
+namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
 	public static class EditorCommand
 	{

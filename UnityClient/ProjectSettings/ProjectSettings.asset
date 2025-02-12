@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Overmind
+  companyName: BenjaminHamon
   productName: Solitaire
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -160,11 +160,11 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.overmind.solitaire
-    Standalone: com.overmind.solitaire
-    Tizen: com.overmind.solitaire
-    iPhone: com.overmind.solitaire
-    tvOS: com.overmind.solitaire
+    Android: com.benjaminhamon.solitaire
+    Standalone: com.benjaminhamon.solitaire
+    Tizen: com.benjaminhamon.solitaire
+    iPhone: com.benjaminhamon.solitaire
+    tvOS: com.benjaminhamon.solitaire
   buildNumber:
     iPhone: 
   AndroidBundleVersionCode: 1

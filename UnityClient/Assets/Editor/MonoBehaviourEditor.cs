@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Overmind.Solitaire.UnityClient.Editor
+namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
 	/// <summary>Inspector to expose a component properties with <see cref="ExposePropertyAttribute"/>.</summary>
 	/// <see href="http://wiki.unity3d.com/index.php/ExposePropertiesInInspector_Generic"/>

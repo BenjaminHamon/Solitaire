@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Overmind.Solitaire.UnityClient
+namespace BenjaminHamon.Solitaire.UnityClient
 {
 	public enum CardType
 	{

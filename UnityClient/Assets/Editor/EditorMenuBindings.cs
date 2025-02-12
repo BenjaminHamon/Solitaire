@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEditor;
 
-namespace Overmind.Solitaire.UnityClient.Editor
+namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
 	internal static class EditorMenuBindings
 	{
