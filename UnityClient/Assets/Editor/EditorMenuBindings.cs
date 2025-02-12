@@ -10,21 +10,27 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		internal static void BuildAllAssetBundlesForAndroid()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Android");
-			AssetBundleBuilder.BuildAllAssetBundles("Android", assetBundleDirectory);
+
+			AssetBundleBuilder assetBundleBuilder = new AssetBundleBuilder();
+			assetBundleBuilder.BuildAllAssetBundles("Android", assetBundleDirectory);
 		}
 
 		[MenuItem("Development/Asset Bundles/Build for Linux")]
 		internal static void BuildAllAssetBundlesForLinux()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Linux");
-			AssetBundleBuilder.BuildAllAssetBundles("Linux", assetBundleDirectory);
+
+			AssetBundleBuilder assetBundleBuilder = new AssetBundleBuilder();
+			assetBundleBuilder.BuildAllAssetBundles("Linux", assetBundleDirectory);
 		}
 
 		[MenuItem("Development/Asset Bundles/Build for Windows")]
 		internal static void BuildAllAssetBundlesForWindows()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Windows");
-			AssetBundleBuilder.BuildAllAssetBundles("Windows", assetBundleDirectory);
+
+			AssetBundleBuilder assetBundleBuilder = new AssetBundleBuilder();
+			assetBundleBuilder.BuildAllAssetBundles("Windows", assetBundleDirectory);
 		}
 
 		[MenuItem("Development/Package/Build for Android (Debug)")]
@@ -32,7 +38,9 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Android");
 			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Android", "Debug");
-			PackageBuilder.BuildApplicationPackage("Android", "Debug", assetBundleDirectory, packageDirectory);
+
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			applicationBuilder.BuildApplicationPackage("Android", "Debug", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -41,7 +49,9 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Android");
 			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Android", "Release");
-			PackageBuilder.BuildApplicationPackage("Android", "Release", assetBundleDirectory, packageDirectory);
+
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			applicationBuilder.BuildApplicationPackage("Android", "Release", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -50,7 +60,9 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Linux");
 			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Linux", "Debug");
-			PackageBuilder.BuildApplicationPackage("Linux", "Debug", assetBundleDirectory, packageDirectory);
+
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			applicationBuilder.BuildApplicationPackage("Linux", "Debug", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -59,7 +71,9 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Linux");
 			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Linux", "Release");
-			PackageBuilder.BuildApplicationPackage("Linux", "Release", assetBundleDirectory, packageDirectory);
+
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			applicationBuilder.BuildApplicationPackage("Linux", "Release", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -68,7 +82,9 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Windows");
 			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Windows", "Debug");
-			PackageBuilder.BuildApplicationPackage("Windows", "Debug", assetBundleDirectory, packageDirectory);
+
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			applicationBuilder.BuildApplicationPackage("Windows", "Debug", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -77,7 +93,9 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Windows");
 			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Windows", "Release");
-			PackageBuilder.BuildApplicationPackage("Windows", "Release", assetBundleDirectory, packageDirectory);
+
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			applicationBuilder.BuildApplicationPackage("Windows", "Release", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 	}

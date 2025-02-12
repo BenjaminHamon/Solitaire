@@ -8,21 +8,24 @@ using UnityEditor.Build.Reporting;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
-	public static class PackageBuilder
+	public class ApplicationBuilder
 	{
-		public static void BuildApplicationPackage(string platform, string configuration, string assetBundleDirectory, string packageDirectory)
+		public void BuildApplicationPackage(string platform, string configuration, string assetBundleDirectory, string packageDirectory)
 		{
-			UnityEngine.Debug.LogFormat("[PackageBuilder] Building package for platform '{0}' with configuration '{1}'", platform, configuration);
-			UnityEngine.Debug.LogFormat("[PackageBuilder] Writing to '{0}'", packageDirectory);
+			BuildTargetGroup unityTagetGroup = ConvertPlatformToUnityTargetGroup(platform);
+			BuildTarget unityTarget = ConvertPlatformToUnityTarget(platform);
 
-			BuildTarget unityPlatform = ConvertPlatform(platform);
+			UnityEngine.Debug.LogFormat("[PackageBuilder] Building application package for platform '{0}' with configuration '{1}'", platform, configuration);
+			UnityEngine.Debug.LogFormat("[PackageBuilder] Writing package files to '{0}'", packageDirectory);
+
 			BuildOptions options = GetOptions(configuration);
-			string packagePath = BuildPackagePath(unityPlatform, packageDirectory, Application.ApplicationFullName);
+			string packagePath = GetPackagePath(unityTarget, packageDirectory, Application.ApplicationFullName);
 			List<string> sceneCollection = new List<string>() { "Assets/MenuScene.unity", "Assets/GameScene.unity" };
 
 			BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
 			{
-				target = unityPlatform,
+				targetGroup = unityTagetGroup,
+				target = unityTarget,
 				options = options,
 				locationPathName = packagePath,
 				scenes = sceneCollection.ToArray(),
@@ -42,7 +45,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 				throw new Exception("Build failed");
 		}
 
-		private static void CopyAssetBundlesToStreamingAssets(string sourceDirectory)
+		private void CopyAssetBundlesToStreamingAssets(string sourceDirectory)
 		{
 			string outputDirectory = Path.Combine (UnityEngine.Application.streamingAssetsPath, "AssetBundles");
 
@@ -66,7 +69,18 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			}
 		}
 
-		private static BuildTarget ConvertPlatform(string platform)
+		private BuildTargetGroup ConvertPlatformToUnityTargetGroup(string platform)
+		{
+			switch (platform)
+			{
+				case "Android": return BuildTargetGroup.Android;
+				case "Linux": return BuildTargetGroup.Standalone;
+				case "Windows": return BuildTargetGroup.Standalone;
+				default: throw new ArgumentException(String.Format("Unsupported platform: '{0}'", platform));
+			}
+		}
+
+		private BuildTarget ConvertPlatformToUnityTarget(string platform)
 		{
 			switch (platform)
 			{
@@ -77,7 +91,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			}
 		}
 
-		private static BuildOptions GetOptions(string configuration)
+		private BuildOptions GetOptions(string configuration)
 		{
 			switch (configuration)
 			{
@@ -87,7 +101,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			}
 		}
 
-		private static string BuildPackagePath(BuildTarget platform, string path, string application)
+		private string GetPackagePath(BuildTarget platform, string path, string application)
 		{
 			switch (platform)
 			{

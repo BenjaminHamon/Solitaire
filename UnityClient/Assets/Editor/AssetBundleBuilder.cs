@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
@@ -6,18 +6,18 @@ using UnityEngine;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
-	public static class AssetBundleBuilder
+	public class AssetBundleBuilder
 	{
-		public static void BuildAllAssetBundles(string platform, string assetBundleDirectory)
+		public void BuildAllAssetBundles(string platform, string assetBundleDirectory)
 		{
 			UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Building asset bundles for platform '{0}'", platform);
 			UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Writing to '{0}'", assetBundleDirectory);
 
-			BuildTarget unityPlatform = ConvertPlatform(platform);
-			BuildAssetBundleOptions options = BuildAssetBundleOptions.StrictMode | BuildAssetBundleOptions.DeterministicAssetBundle;
+			BuildTarget unityTarget = ConvertPlatform(platform);
+			BuildAssetBundleOptions options = BuildAssetBundleOptions.StrictMode;
 
 			Directory.CreateDirectory(assetBundleDirectory);
-			AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, unityPlatform);
+			AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, unityTarget);
 			BuildResult result = manifest != null ? BuildResult.Succeeded : BuildResult.Failed;
 			AssetDatabase.Refresh();
 
@@ -27,7 +27,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 				throw new Exception("Build failed");
 		}
 
-		private static BuildTarget ConvertPlatform(string platform)
+		private BuildTarget ConvertPlatform(string platform)
 		{
 			switch (platform)
 			{

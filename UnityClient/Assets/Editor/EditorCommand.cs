@@ -12,7 +12,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string platform = EditorCommandHelpers.ParseArgument<string>(arguments, "platform");
 			string assetBundleDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "assetBundleDirectory");
 
-			AssetBundleBuilder.BuildAllAssetBundles(platform, assetBundleDirectory);
+			AssetBundleBuilder assetBundleBuilder = new AssetBundleBuilder();
+			assetBundleBuilder.BuildAllAssetBundles(platform, assetBundleDirectory);
 		}
 
 		public static void BuildApplicationPackage()
@@ -25,7 +26,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string assetBundleDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "assetBundleDirectory");
 			string packageDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "packageDirectory");
 
-			PackageBuilder.BuildApplicationPackage(platform, configuration, assetBundleDirectory, packageDirectory);
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			applicationBuilder.BuildApplicationPackage(platform, configuration, assetBundleDirectory, packageDirectory);
 		}
 	}
 }
