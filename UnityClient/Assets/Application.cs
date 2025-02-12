@@ -1,4 +1,4 @@
-﻿using BenjaminHamon.Solitaire.UnityClient.Content;
+using BenjaminHamon.Solitaire.UnityClient.Content;
 using System;
 using System.IO;
 using UnityEngine;
@@ -31,8 +31,7 @@ namespace BenjaminHamon.Solitaire.UnityClient
 			}
 #endif
 
-			string installationDirectory = Path.GetDirectoryName(UnityEngine.Application.dataPath);
-			return new AssetLoaderUsingBundles(Path.Combine(installationDirectory, "AssetBundles"));
+			return new AssetLoaderUsingBundles(Path.Combine(UnityEngine.Application.streamingAssetsPath, "AssetBundles"));
 		}
 
 		private static string GetAssetBundlePlatform(RuntimePlatform platform)

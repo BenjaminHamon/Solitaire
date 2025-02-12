@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 
@@ -31,8 +31,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		internal static void BuildPackageForAndroidDebug()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Android");
-			string packageDirectory = Path.Combine("..", "Artifacts", "Packages", "Android", "Debug");
-			PackageBuilder.BuildPackage("Android", "Debug", assetBundleDirectory, packageDirectory);
+			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Android", "Debug");
+			PackageBuilder.BuildApplicationPackage("Android", "Debug", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -40,8 +40,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		internal static void BuildPackageForAndroidRelease()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Android");
-			string packageDirectory = Path.Combine("..", "Artifacts", "Packages", "Android", "Release");
-			PackageBuilder.BuildPackage("Android", "Release", assetBundleDirectory, packageDirectory);
+			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Android", "Release");
+			PackageBuilder.BuildApplicationPackage("Android", "Release", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -49,8 +49,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		internal static void BuildPackageForLinuxDebug()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Linux");
-			string packageDirectory = Path.Combine("..", "Artifacts", "Packages", "Linux", "Debug");
-			PackageBuilder.BuildPackage("Linux", "Debug", assetBundleDirectory, packageDirectory);
+			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Linux", "Debug");
+			PackageBuilder.BuildApplicationPackage("Linux", "Debug", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -58,8 +58,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		internal static void BuildPackageForLinuxRelease()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Linux");
-			string packageDirectory = Path.Combine("..", "Artifacts", "Packages", "Linux", "Release");
-			PackageBuilder.BuildPackage("Linux", "Release", assetBundleDirectory, packageDirectory);
+			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Linux", "Release");
+			PackageBuilder.BuildApplicationPackage("Linux", "Release", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -67,8 +67,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		internal static void BuildPackageForWindowsDebug()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Windows");
-			string packageDirectory = Path.Combine("..", "Artifacts", "Packages", "Windows", "Debug");
-			PackageBuilder.BuildPackage("Windows", "Debug", assetBundleDirectory, packageDirectory);
+			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Windows", "Debug");
+			PackageBuilder.BuildApplicationPackage("Windows", "Debug", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 
@@ -76,8 +76,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		internal static void BuildPackageForWindowsRelease()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Windows");
-			string packageDirectory = Path.Combine("..", "Artifacts", "Packages", "Windows", "Release");
-			PackageBuilder.BuildPackage("Windows", "Release", assetBundleDirectory, packageDirectory);
+			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Windows", "Release");
+			PackageBuilder.BuildApplicationPackage("Windows", "Release", assetBundleDirectory, packageDirectory);
 			Process.Start(packageDirectory);
 		}
 	}

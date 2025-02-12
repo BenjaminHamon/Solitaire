@@ -10,7 +10,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
 	public static class PackageBuilder
 	{
-		public static void BuildPackage(string platform, string configuration, string assetBundleDirectory, string packageDirectory)
+		public static void BuildApplicationPackage(string platform, string configuration, string assetBundleDirectory, string packageDirectory)
 		{
 			UnityEngine.Debug.LogFormat("[PackageBuilder] Building package for platform '{0}' with configuration '{1}'", platform, configuration);
 			UnityEngine.Debug.LogFormat("[PackageBuilder] Writing to '{0}'", packageDirectory);
@@ -32,7 +32,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 
 			if (buildReport.summary.result == BuildResult.Succeeded)
 			{
-				CopyAssetBundles(platform, assetBundleDirectory, packageDirectory);
+				CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
 			}
 
 			UnityEngine.Debug.LogFormat("[PackageBuilder] Build completed with status '{0}' ({1} errors, {2} warnings)",
@@ -42,24 +42,24 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 				throw new Exception("Build failed");
 		}
 
-		public static void CopyAssetBundles(string platform, string assetBundleDirectory, string packageDirectory)
+		private static void CopyAssetBundlesToStreamingAssets(string sourceDirectory)
 		{
-			UnityEngine.Debug.LogFormat("[PackageBuilder] Copying asset bundles");
+			string outputDirectory = Path.Combine (UnityEngine.Application.streamingAssetsPath, "AssetBundles");
 
-			List<string> allFiles = Directory.EnumerateFiles(assetBundleDirectory, "*", SearchOption.AllDirectories)
+			UnityEngine.Debug.LogFormat("[PackageBuilder] Copying asset bundles ({0} => {1}", sourceDirectory, outputDirectory);
+
+			List<string> allFiles = Directory.EnumerateFiles(sourceDirectory, "*", SearchOption.AllDirectories)
 				.Where(filePath => Path.GetExtension(filePath) != ".meta")
-				.Select(filePath => Regex.Replace(filePath, "^" + Regex.Escape(assetBundleDirectory + Path.DirectorySeparatorChar), ""))
+				.Select(filePath => Regex.Replace(filePath, "^" + Regex.Escape(sourceDirectory + Path.DirectorySeparatorChar), ""))
 				.ToList();
 
-			if (Directory.Exists(Path.Combine(packageDirectory, "AssetBundles")))
-				Directory.Delete(Path.Combine(packageDirectory, "AssetBundles"), true);
+			if (Directory.Exists(outputDirectory))
+				Directory.Delete(outputDirectory, true);
 
 			foreach (string sourcePath in allFiles)
 			{
-				string source = Path.Combine(assetBundleDirectory, sourcePath);
-				string destination = Path.Combine(packageDirectory, "AssetBundles", sourcePath);
-
-				// UnityEngine.Debug.LogFormat("[PackageBuilder] + '{0}' => '{1}'", source, destination);
+				string source = Path.Combine(sourceDirectory, sourcePath);
+				string destination = Path.Combine(outputDirectory, sourcePath);
 
 				Directory.CreateDirectory(Path.GetDirectoryName(destination));
 				File.Copy(source, destination);

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
@@ -15,7 +15,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			AssetBundleBuilder.BuildAllAssetBundles(platform, assetBundleDirectory);
 		}
 
-		public static void BuildPackage()
+		public static void BuildApplicationPackage()
 		{
 			EditorCommandHelpers.ConfigureLogging();
 
@@ -25,7 +25,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string assetBundleDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "assetBundleDirectory");
 			string packageDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "packageDirectory");
 
-			PackageBuilder.BuildPackage(platform, configuration, assetBundleDirectory, packageDirectory);
+			PackageBuilder.BuildApplicationPackage(platform, configuration, assetBundleDirectory, packageDirectory);
 		}
 	}
 }

@@ -17,7 +17,7 @@ class UnityAutomationClient:
             platform: str, configuration: str, asset_bundle_directory: str, package_directory: str,
             log_file_path: Optional[str] = None, simulate: bool = False) -> None:
 
-        command = "BuildPackage"
+        command = "BuildApplicationPackage"
 
         command_arguments = {
             "platform": platform,
