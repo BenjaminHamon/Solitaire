@@ -1,8 +1,9 @@
 {
 	"ProjectIdentifier": "Solitaire",
 	"ProjectDisplayName": "Solitaire",
-	"ProjectVersionIdentifier": "1.0",
+	"ProjectVersionIdentifier": "1.0.0",
 	"Copyright": "Copyright (c) 2025 Benjamin Hamon",
 	"Author": "Benjamin Hamon",
-	"AuthorEmail": "development@benjaminhamon.com"
+	"AuthorEmail": "development@benjaminhamon.com",
+	"ProjectUrl": "https://github.com/BenjaminHamon/Solitaire"
 }
