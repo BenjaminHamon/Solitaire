@@ -16,15 +16,27 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			BuildTarget unityTarget = ConvertPlatform(platform);
 			BuildAssetBundleOptions options = BuildAssetBundleOptions.StrictMode;
 
-			Directory.CreateDirectory(assetBundleDirectory);
-			AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, unityTarget);
-			BuildResult result = manifest != null ? BuildResult.Succeeded : BuildResult.Failed;
-			AssetDatabase.Refresh();
+			ReflectionEditorContext editorContext = new ReflectionEditorContext();
+			editorContext.BuildTarget = unityTarget;
 
-			UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Build completed with status '{0}'", result);
+			try
+			{
+				editorContext.Apply();
 
-			if (manifest == null)
-				throw new Exception("Build failed");
+				Directory.CreateDirectory(assetBundleDirectory);
+				AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, unityTarget);
+				BuildResult result = manifest != null ? BuildResult.Succeeded : BuildResult.Failed;
+				AssetDatabase.Refresh();
+
+				UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Build completed with status '{0}'", result);
+
+				if (manifest == null)
+					throw new Exception("Build failed");
+			}
+			finally
+			{
+				editorContext.Revert();
+			}
 		}
 
 		private BuildTarget ConvertPlatform(string platform)

@@ -31,18 +31,30 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 				scenes = sceneCollection.ToArray(),
 			};
 
-			BuildReport buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+			ReflectionEditorContext editorContext = new ReflectionEditorContext();
+			editorContext.BuildTarget = unityTarget;
 
-			if (buildReport.summary.result == BuildResult.Succeeded)
+			try
 			{
-				CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
+				editorContext.Apply();
+
+				BuildReport buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+
+				if (buildReport.summary.result == BuildResult.Succeeded)
+				{
+					CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
+				}
+
+				UnityEngine.Debug.LogFormat("[PackageBuilder] Build completed with status '{0}' ({1} errors, {2} warnings)",
+					buildReport.summary.result, buildReport.summary.totalErrors, buildReport.summary.totalWarnings);
+
+				if (buildReport.summary.result == BuildResult.Failed)
+					throw new Exception("Build failed");
 			}
-
-			UnityEngine.Debug.LogFormat("[PackageBuilder] Build completed with status '{0}' ({1} errors, {2} warnings)",
-				buildReport.summary.result, buildReport.summary.totalErrors, buildReport.summary.totalWarnings);
-
-			if (buildReport.summary.result == BuildResult.Failed)
-				throw new Exception("Build failed");
+			finally
+			{
+				editorContext.Revert();
+			}
 		}
 
 		private void CopyAssetBundlesToStreamingAssets(string sourceDirectory)
