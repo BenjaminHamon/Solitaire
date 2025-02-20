@@ -38,8 +38,10 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			{
 				editorContext.Apply();
 
+				ClearStreamingAssets();
 				CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
 				BuildReport buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+				ClearStreamingAssets();
 
 				UnityEngine.Debug.LogFormat("[PackageBuilder] Build completed with status '{0}' ({1} errors, {2} warnings)",
 					buildReport.summary.result, buildReport.summary.totalErrors, buildReport.summary.totalWarnings);
@@ -53,9 +55,17 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			}
 		}
 
+		private void ClearStreamingAssets()
+		{
+			if (Directory.Exists(UnityEngine.Application.streamingAssetsPath))
+				Directory.Delete(UnityEngine.Application.streamingAssetsPath, true);
+			if (File.Exists(UnityEngine.Application.streamingAssetsPath + ".meta"))
+				File.Delete(UnityEngine.Application.streamingAssetsPath + ".meta");
+		}
+
 		private void CopyAssetBundlesToStreamingAssets(string sourceDirectory)
 		{
-			string outputDirectory = Path.Combine (UnityEngine.Application.streamingAssetsPath, "AssetBundles");
+			string outputDirectory = Path.Combine(UnityEngine.Application.streamingAssetsPath, "AssetBundles");
 
 			UnityEngine.Debug.LogFormat("[PackageBuilder] Copying asset bundles ({0} => {1}", sourceDirectory, outputDirectory);
 
@@ -63,9 +73,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 				.Where(filePath => Path.GetExtension(filePath) != ".meta")
 				.Select(filePath => Regex.Replace(filePath, "^" + Regex.Escape(sourceDirectory + Path.DirectorySeparatorChar), ""))
 				.ToList();
-
-			if (Directory.Exists(outputDirectory))
-				Directory.Delete(outputDirectory, true);
 
 			foreach (string sourcePath in allFiles)
 			{

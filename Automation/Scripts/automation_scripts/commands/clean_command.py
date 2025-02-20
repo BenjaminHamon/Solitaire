@@ -109,13 +109,17 @@ class CleanCommand(AutomationCommand):
 
     def clean_unity_project(self, unity_project: UnityProject, simulate: bool = False) -> None:
         directories_to_remove = [
+            os.path.join(unity_project.path, "Assets", "StreamingAssets"),
             os.path.join(unity_project.path, "Library"),
             os.path.join(unity_project.path, "Logs"),
             os.path.join(unity_project.path, "obj"),
             os.path.join(unity_project.path, "Temp"),
         ]
 
-        files_to_remove: list[str] = []
+        files_to_remove: list[str] = [
+            os.path.join(unity_project.path, "Assets", "StreamingAssets.meta"),
+        ]
+
         files_to_remove += glob.glob(os.path.join(unity_project.path, "*.sln"))
         files_to_remove += glob.glob(os.path.join(unity_project.path, "*.csproj"))
 
