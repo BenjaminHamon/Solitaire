@@ -12,7 +12,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 	{
 		public void BuildApplicationPackage(string platform, string configuration, string assetBundleDirectory, string packageDirectory)
 		{
-			BuildTargetGroup unityTagetGroup = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTargetGroup(platform);
+			BuildTargetGroup unityTargetGroup = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTargetGroup(platform);
 			BuildTarget unityTarget = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTarget(platform);
 
 			UnityEngine.Debug.LogFormat("[PackageBuilder] Building application package for platform '{0}' with configuration '{1}'", platform, configuration);
@@ -24,7 +24,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 
 			BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
 			{
-				targetGroup = unityTagetGroup,
+				targetGroup = unityTargetGroup,
 				target = unityTarget,
 				options = options,
 				locationPathName = packagePath,
@@ -38,12 +38,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			{
 				editorContext.Apply();
 
+				CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
 				BuildReport buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
-
-				if (buildReport.summary.result == BuildResult.Succeeded)
-				{
-					CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
-				}
 
 				UnityEngine.Debug.LogFormat("[PackageBuilder] Build completed with status '{0}' ({1} errors, {2} warnings)",
 					buildReport.summary.result, buildReport.summary.totalErrors, buildReport.summary.totalWarnings);
