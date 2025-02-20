@@ -12,8 +12,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 	{
 		public void BuildApplicationPackage(string platform, string configuration, string assetBundleDirectory, string packageDirectory)
 		{
-			BuildTargetGroup unityTagetGroup = ConvertPlatformToUnityTargetGroup(platform);
-			BuildTarget unityTarget = ConvertPlatformToUnityTarget(platform);
+			BuildTargetGroup unityTagetGroup = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTargetGroup(platform);
+			BuildTarget unityTarget = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTarget(platform);
 
 			UnityEngine.Debug.LogFormat("[PackageBuilder] Building application package for platform '{0}' with configuration '{1}'", platform, configuration);
 			UnityEngine.Debug.LogFormat("[PackageBuilder] Writing package files to '{0}'", packageDirectory);
@@ -31,18 +31,30 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 				scenes = sceneCollection.ToArray(),
 			};
 
-			BuildReport buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+			ReflectionEditorContext editorContext = new ReflectionEditorContext();
+			editorContext.BuildTarget = unityTarget;
 
-			if (buildReport.summary.result == BuildResult.Succeeded)
+			try
 			{
-				CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
+				editorContext.Apply();
+
+				BuildReport buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
+
+				if (buildReport.summary.result == BuildResult.Succeeded)
+				{
+					CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
+				}
+
+				UnityEngine.Debug.LogFormat("[PackageBuilder] Build completed with status '{0}' ({1} errors, {2} warnings)",
+					buildReport.summary.result, buildReport.summary.totalErrors, buildReport.summary.totalWarnings);
+
+				if (buildReport.summary.result == BuildResult.Failed)
+					throw new Exception("Build failed");
 			}
-
-			UnityEngine.Debug.LogFormat("[PackageBuilder] Build completed with status '{0}' ({1} errors, {2} warnings)",
-				buildReport.summary.result, buildReport.summary.totalErrors, buildReport.summary.totalWarnings);
-
-			if (buildReport.summary.result == BuildResult.Failed)
-				throw new Exception("Build failed");
+			finally
+			{
+				editorContext.Revert();
+			}
 		}
 
 		private void CopyAssetBundlesToStreamingAssets(string sourceDirectory)
@@ -66,28 +78,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 
 				Directory.CreateDirectory(Path.GetDirectoryName(destination));
 				File.Copy(source, destination);
-			}
-		}
-
-		private BuildTargetGroup ConvertPlatformToUnityTargetGroup(string platform)
-		{
-			switch (platform)
-			{
-				case "Android": return BuildTargetGroup.Android;
-				case "Linux": return BuildTargetGroup.Standalone;
-				case "Windows": return BuildTargetGroup.Standalone;
-				default: throw new ArgumentException(String.Format("Unsupported platform: '{0}'", platform));
-			}
-		}
-
-		private BuildTarget ConvertPlatformToUnityTarget(string platform)
-		{
-			switch (platform)
-			{
-				case "Android": return BuildTarget.Android;
-				case "Linux": return BuildTarget.StandaloneLinux64;
-				case "Windows": return BuildTarget.StandaloneWindows64;
-				default: throw new ArgumentException(String.Format("Unsupported platform: '{0}'", platform));
 			}
 		}
 

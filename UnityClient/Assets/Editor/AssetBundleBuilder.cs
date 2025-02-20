@@ -13,28 +13,29 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Building asset bundles for platform '{0}'", platform);
 			UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Writing to '{0}'", assetBundleDirectory);
 
-			BuildTarget unityTarget = ConvertPlatform(platform);
+			BuildTarget unityTarget = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTarget(platform);
 			BuildAssetBundleOptions options = BuildAssetBundleOptions.StrictMode;
 
-			Directory.CreateDirectory(assetBundleDirectory);
-			AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, unityTarget);
-			BuildResult result = manifest != null ? BuildResult.Succeeded : BuildResult.Failed;
-			AssetDatabase.Refresh();
+			ReflectionEditorContext editorContext = new ReflectionEditorContext();
+			editorContext.BuildTarget = unityTarget;
 
-			UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Build completed with status '{0}'", result);
-
-			if (manifest == null)
-				throw new Exception("Build failed");
-		}
-
-		private BuildTarget ConvertPlatform(string platform)
-		{
-			switch (platform)
+			try
 			{
-				case "Android": return BuildTarget.Android;
-				case "Linux": return BuildTarget.StandaloneLinux64;
-				case "Windows": return BuildTarget.StandaloneWindows64;
-				default: throw new ArgumentException(String.Format("Unsupported platform: '{0}'", platform));
+				editorContext.Apply();
+
+				Directory.CreateDirectory(assetBundleDirectory);
+				AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, unityTarget);
+				BuildResult result = manifest != null ? BuildResult.Succeeded : BuildResult.Failed;
+				AssetDatabase.Refresh();
+
+				UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Build completed with status '{0}'", result);
+
+				if (manifest == null)
+					throw new Exception("Build failed");
+			}
+			finally
+			{
+				editorContext.Revert();
 			}
 		}
 	}
