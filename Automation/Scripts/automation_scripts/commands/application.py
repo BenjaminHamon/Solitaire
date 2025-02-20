@@ -14,11 +14,11 @@ from automation_scripts.helpers import automation_factory
 logger = logging.getLogger("Main")
 
 
-class ApplicationPackageCommand(AutomationCommandGroup):
+class ApplicationCommand(AutomationCommandGroup):
 
 
     def configure_argument_parser(self, subparsers: argparse._SubParsersAction, **kwargs) -> argparse.ArgumentParser:
-        local_parser: argparse.ArgumentParser = subparsers.add_parser("application-package", help = "commands related to application packages")
+        local_parser: argparse.ArgumentParser = subparsers.add_parser("application", help = "commands related to applications")
 
         command_collection: List[Callable[[],AutomationCommand]] = [
             _BuildCommand,
