@@ -58,11 +58,11 @@ class _BuildCommand(AutomationCommand):
         configuration: str = arguments.configuration
 
         unity_project = automation_configuration.unity_development_configuration.get_project_by_identifier("UnityClient")
-        log_file_path = os.path.join("Artifacts", "Editor", "BuildApplicationPackage.log")
+        log_file_path = os.path.join("Artifacts", "Editor", "BuildApplication.log")
         asset_bundle_directory = os.path.join("Artifacts", "AssetBundles", platform)
-        package_directory = os.path.join("Artifacts", "ApplicationPackages", platform + "-" + configuration)
+        package_directory = os.path.join("Artifacts", "Applications", platform + "-" + configuration)
 
         unity_automation_client = automation_factory.create_unity_automation_client(workspace_environment, unity_project)
 
-        await unity_automation_client.build_application_package(
+        await unity_automation_client.build_application(
             platform, configuration, asset_bundle_directory, package_directory, log_file_path = log_file_path, simulate = simulate)

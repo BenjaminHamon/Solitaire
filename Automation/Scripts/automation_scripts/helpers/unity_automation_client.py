@@ -23,7 +23,7 @@ class UnityAutomationClient:
             build_target = build_target, enable_graphics = enable_graphics, log_file_path = log_file_path, simulate = simulate)
 
 
-    async def build_application_package(self, # pylint: disable = too-many-arguments
+    async def build_application(self, # pylint: disable = too-many-arguments
             platform: str, configuration: str, asset_bundle_directory: str, package_directory: str,
             log_file_path: Optional[str] = None, simulate: bool = False) -> None:
 
