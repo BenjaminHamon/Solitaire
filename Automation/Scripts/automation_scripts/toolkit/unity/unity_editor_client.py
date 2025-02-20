@@ -1,7 +1,6 @@
 import logging
 import os
 import subprocess
-import sys
 from typing import List, Optional
 
 from bhamon_development_toolkit.processes import process_helpers
@@ -14,6 +13,7 @@ from bhamon_development_toolkit.processes.process_output_logger import ProcessOu
 from bhamon_development_toolkit.processes.process_runner import ProcessRunner
 
 from automation_scripts.toolkit.unity.unity_editor_arguments import UnityEditorArguments
+from automation_scripts.toolkit.unity.unity_output_logger import UnityOutputLogger
 
 logger = logging.getLogger("Unity")
 
@@ -102,9 +102,9 @@ class UnityEditorClient:
 
         process_options = ProcessOptions()
         raw_logger = process_helpers.create_raw_logger(log_file_path = log_file_path)
-        raw_logger.configure_log_stream(sys.stdout, "debug")
         process_output_logger = ProcessOutputLogger(raw_logger.get_actual_logger())
-        output_handlers: List[ProcessOutputHandler] = [ process_output_logger ]
+        unity_output_logger = UnityOutputLogger(logger)
+        output_handlers: List[ProcessOutputHandler] = [ process_output_logger, unity_output_logger ]
 
         logger.info("Running editor (Project: '%s')", self._project_path)
         logger.debug("+ %s", process_helpers.format_executable_command(command_as_object.get_command_for_logging()))
