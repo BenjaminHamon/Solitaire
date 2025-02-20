@@ -13,7 +13,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Building asset bundles for platform '{0}'", platform);
 			UnityEngine.Debug.LogFormat("[AssetBundleBuilder] Writing to '{0}'", assetBundleDirectory);
 
-			BuildTarget unityTarget = ConvertPlatform(platform);
+			BuildTarget unityTarget = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTarget(platform);
 			BuildAssetBundleOptions options = BuildAssetBundleOptions.StrictMode;
 
 			ReflectionEditorContext editorContext = new ReflectionEditorContext();
@@ -36,17 +36,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			finally
 			{
 				editorContext.Revert();
-			}
-		}
-
-		private BuildTarget ConvertPlatform(string platform)
-		{
-			switch (platform)
-			{
-				case "Android": return BuildTarget.Android;
-				case "Linux": return BuildTarget.StandaloneLinux64;
-				case "Windows": return BuildTarget.StandaloneWindows64;
-				default: throw new ArgumentException(String.Format("Unsupported platform: '{0}'", platform));
 			}
 		}
 	}
