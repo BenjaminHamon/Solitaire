@@ -1,7 +1,7 @@
 import argparse
 import logging
 import os
-from typing import Callable, List
+from typing import Callable, List, Optional
 
 from bhamon_development_toolkit.automation.automation_command import AutomationCommand
 from bhamon_development_toolkit.automation.automation_command_group import AutomationCommandGroup
@@ -64,7 +64,9 @@ class _ReimportCommand(AutomationCommand):
 
 
     def configure_argument_parser(self, subparsers: argparse._SubParsersAction, **kwargs) -> argparse.ArgumentParser:
-        return subparsers.add_parser("reimport", help = "reimport all assets")
+        local_parser = subparsers.add_parser("reimport", help = "reimport all assets")
+        local_parser.add_argument("--platform", metavar = "<platform>", help = "set the platform to reimport for")
+        return local_parser
 
 
     def check_requirements(self, arguments: argparse.Namespace, **kwargs) -> None:
@@ -78,9 +80,10 @@ class _ReimportCommand(AutomationCommand):
     async def run_async(self, arguments: argparse.Namespace, simulate: bool, **kwargs) -> None:
         workspace_environment: WorkspaceEnvironment = kwargs["environment"]
         automation_configuration: AutomationConfiguration = kwargs["configuration"]
+        platform: Optional[str] = arguments.platform
 
         unity_project = automation_configuration.unity_development_configuration.get_project_by_identifier("UnityClient")
         log_file_path = os.path.join("Artifacts", "Editor", "Reimport.log")
 
-        unity_editor_client = automation_factory.create_unity_editor_client(workspace_environment, unity_project)
-        await unity_editor_client.reimport(log_file_path = log_file_path, simulate = simulate)
+        unity_automation_client = automation_factory.create_unity_automation_client(workspace_environment, unity_project)
+        await unity_automation_client.reimport(platform, log_file_path = log_file_path, simulate = simulate)

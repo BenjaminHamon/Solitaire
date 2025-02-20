@@ -13,6 +13,16 @@ class UnityAutomationClient:
         self._command_namespace = command_namespace
 
 
+    async def reimport(self,
+            platform: Optional[str] = None, enable_graphics = False,
+            log_file_path: Optional[str] = None, simulate: bool = False) -> None:
+
+        build_target = self._convert_platform_to_unity_build_target(platform)
+
+        await self._editor_client.reimport(
+            build_target = build_target, enable_graphics = enable_graphics, log_file_path = log_file_path, simulate = simulate)
+
+
     async def build_application_package(self, # pylint: disable = too-many-arguments
             platform: str, configuration: str, asset_bundle_directory: str, package_directory: str,
             log_file_path: Optional[str] = None, simulate: bool = False) -> None:
@@ -60,7 +70,7 @@ class UnityAutomationClient:
             unity_arguments, command_fully_qualified,  command_arguments_formatted, log_file_path = log_file_path, simulate = simulate)
 
 
-    def _convert_platform_to_unity_build_target(self, platform: str) -> Optional[str]:
+    def _convert_platform_to_unity_build_target(self, platform: Optional[str]) -> Optional[str]:
         if platform is None:
             return None
 
