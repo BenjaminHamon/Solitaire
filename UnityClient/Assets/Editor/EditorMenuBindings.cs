@@ -33,70 +33,70 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			assetBundleBuilder.BuildAllAssetBundles("Windows", assetBundleDirectory);
 		}
 
-		[MenuItem("Development/Package/Build for Android (Debug)")]
-		internal static void BuildPackageForAndroidDebug()
+		[MenuItem("Development/Applications/Build for Android (Debug)")]
+		internal static void BuildApplicationForAndroidDebug()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Android");
-			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Android", "Debug");
+			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Android-Debug");
 
 			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
-			applicationBuilder.BuildApplicationPackage("Android", "Debug", assetBundleDirectory, packageDirectory);
-			Process.Start(packageDirectory);
+			applicationBuilder.BuildApplication("Android", "Debug", assetBundleDirectory, outputDirectory);
+			Process.Start(outputDirectory);
 		}
 
-		[MenuItem("Development/Package/Build for Android (Release)")]
-		internal static void BuildPackageForAndroidRelease()
+		[MenuItem("Development/Applications/Build for Android (Release)")]
+		internal static void BuildApplicationForAndroidRelease()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Android");
-			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Android", "Release");
+			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Android-Release");
 
 			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
-			applicationBuilder.BuildApplicationPackage("Android", "Release", assetBundleDirectory, packageDirectory);
-			Process.Start(packageDirectory);
+			applicationBuilder.BuildApplication("Android", "Release", assetBundleDirectory, outputDirectory);
+			Process.Start(outputDirectory);
 		}
 
-		[MenuItem("Development/Package/Build for Linux (Debug)")]
-		internal static void BuildPackageForLinuxDebug()
+		[MenuItem("Development/Applications/Build for Linux (Debug)")]
+		internal static void BuildApplicationForLinuxDebug()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Linux");
-			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Linux", "Debug");
+			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Linux-Debug");
 
 			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
-			applicationBuilder.BuildApplicationPackage("Linux", "Debug", assetBundleDirectory, packageDirectory);
-			Process.Start(packageDirectory);
+			applicationBuilder.BuildApplication("Linux", "Debug", assetBundleDirectory, outputDirectory);
+			Process.Start(outputDirectory);
 		}
 
-		[MenuItem("Development/Package/Build for Linux (Release)")]
-		internal static void BuildPackageForLinuxRelease()
+		[MenuItem("Development/Applications/Build for Linux (Release)")]
+		internal static void BuildApplicationForLinuxRelease()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Linux");
-			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Linux", "Release");
+			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Linux-Release");
 
 			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
-			applicationBuilder.BuildApplicationPackage("Linux", "Release", assetBundleDirectory, packageDirectory);
-			Process.Start(packageDirectory);
+			applicationBuilder.BuildApplication("Linux", "Release", assetBundleDirectory, outputDirectory);
+			Process.Start(outputDirectory);
 		}
 
-		[MenuItem("Development/Package/Build for Windows (Debug)")]
-		internal static void BuildPackageForWindowsDebug()
+		[MenuItem("Development/Applications/Build for Windows (Debug)")]
+		internal static void BuildApplicationForWindowsDebug()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Windows");
-			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Windows", "Debug");
+			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Windows-Debug");
 
 			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
-			applicationBuilder.BuildApplicationPackage("Windows", "Debug", assetBundleDirectory, packageDirectory);
-			Process.Start(packageDirectory);
+			applicationBuilder.BuildApplication("Windows", "Debug", assetBundleDirectory, outputDirectory);
+			Process.Start(outputDirectory);
 		}
 
-		[MenuItem("Development/Package/Build for Windows (Release)")]
-		internal static void BuildPackageForWindowsRelease()
+		[MenuItem("Development/Applications/Build for Windows (Release)")]
+		internal static void BuildApplicationForWindowsRelease()
 		{
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Windows");
-			string packageDirectory = Path.Combine("..", "Artifacts", "ApplicationPackages", "Windows", "Release");
+			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Windows-Release");
 
 			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
-			applicationBuilder.BuildApplicationPackage("Windows", "Release", assetBundleDirectory, packageDirectory);
-			Process.Start(packageDirectory);
+			applicationBuilder.BuildApplication("Windows", "Release", assetBundleDirectory, outputDirectory);
+			Process.Start(outputDirectory);
 		}
 	}
 }

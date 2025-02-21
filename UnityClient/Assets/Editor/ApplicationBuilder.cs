@@ -10,16 +10,15 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
 	public class ApplicationBuilder
 	{
-		public void BuildApplicationPackage(string platform, string configuration, string assetBundleDirectory, string packageDirectory)
+		public void BuildApplication(string platform, string configuration, string assetBundleDirectory, string applicationDirectory)
 		{
 			BuildTargetGroup unityTargetGroup = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTargetGroup(platform);
 			BuildTarget unityTarget = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTarget(platform);
 
-			UnityEngine.Debug.LogFormat("[PackageBuilder] Building application package for platform '{0}' with configuration '{1}'", platform, configuration);
-			UnityEngine.Debug.LogFormat("[PackageBuilder] Writing package files to '{0}'", packageDirectory);
+			UnityEngine.Debug.LogFormat("[ApplicationBuilder] Building application for platform '{0}' with configuration '{1}'", platform, configuration);
 
 			BuildOptions options = GetOptions(configuration);
-			string packagePath = GetPackagePath(unityTarget, packageDirectory, Application.ApplicationFullName);
+			string packagePath = GetPackagePath(unityTarget, applicationDirectory, Application.ApplicationFullName);
 			List<string> sceneCollection = new List<string>() { "Assets/MenuScene.unity", "Assets/GameScene.unity" };
 
 			BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
@@ -40,10 +39,11 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 
 				ClearStreamingAssets();
 				CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
+				UnityEngine.Debug.LogFormat("[ApplicationBuilder] Building player (OutputDirectory: '{0}')", applicationDirectory);
 				BuildReport buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
 				ClearStreamingAssets();
 
-				UnityEngine.Debug.LogFormat("[PackageBuilder] Build completed with status '{0}' ({1} errors, {2} warnings)",
+				UnityEngine.Debug.LogFormat("[ApplicationBuilder] Build completed with status '{0}' ({1} errors, {2} warnings)",
 					buildReport.summary.result, buildReport.summary.totalErrors, buildReport.summary.totalWarnings);
 
 				if (buildReport.summary.result == BuildResult.Failed)
@@ -67,7 +67,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 		{
 			string outputDirectory = Path.Combine(UnityEngine.Application.streamingAssetsPath, "AssetBundles");
 
-			UnityEngine.Debug.LogFormat("[PackageBuilder] Copying asset bundles ({0} => {1}", sourceDirectory, outputDirectory);
+			UnityEngine.Debug.LogFormat("[ApplicationBuilder] Copying asset bundles ('{0}' => '{1}')", sourceDirectory, outputDirectory);
 
 			List<string> allFiles = Directory.EnumerateFiles(sourceDirectory, "*", SearchOption.AllDirectories)
 				.Where(filePath => Path.GetExtension(filePath) != ".meta")

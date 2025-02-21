@@ -38,10 +38,10 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string platform = EditorCommandHelpers.ParseArgument<string>(arguments, "platform");
 			string configuration = EditorCommandHelpers.ParseArgument<string>(arguments, "configuration");
 			string assetBundleDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "assetBundleDirectory");
-			string packageDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "packageDirectory");
+			string outputDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "outputDirectory");
 
 			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
-			applicationBuilder.BuildApplicationPackage(platform, configuration, assetBundleDirectory, packageDirectory);
+			applicationBuilder.BuildApplication(platform, configuration, assetBundleDirectory, outputDirectory);
 		}
 	}
 }

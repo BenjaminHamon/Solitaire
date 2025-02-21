@@ -33,7 +33,7 @@ class UnityAutomationClient:
             "platform": platform,
             "configuration": configuration,
             "assetBundleDirectory": os.path.abspath(asset_bundle_directory),
-            "packageDirectory": os.path.abspath(package_directory),
+            "outputDirectory": os.path.abspath(package_directory),
         }
 
         build_target = self._convert_platform_to_unity_build_target(platform)
