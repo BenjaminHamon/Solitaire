@@ -1,14 +1,31 @@
+using System;
 using System.Collections.Generic;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
 	public static class EditorCommand
 	{
-		public static void BuildAssetBundles()
+		public static void RunEditorCommand()
 		{
 			EditorCommandHelpers.ConfigureLogging();
 
-			Dictionary<string, string> arguments = EditorCommandHelpers.FindMethodArguments();
+			Dictionary<string, List<string>> allArguments = EditorCommandHelpers.ConvertRawArgumentsToDictionary();
+
+			string command = EditorCommandHelpers.GetCommandName(allArguments);
+			Dictionary<string, string> commandArguments = EditorCommandHelpers.GetCommandArguments(allArguments);
+
+			UnityEngine.Debug.LogFormat("[EditorCommand] Running command '{0}'", command);
+
+			switch (command)
+			{
+				case "BuildAssetBundles": BuildAssetBundles(commandArguments); break;
+				case "BuildApplication": BuildApplication(commandArguments); break;
+				default: throw new Exception(String.Format("Unknown command: '{0}'", command));
+			}
+		}
+
+		public static void BuildAssetBundles(Dictionary<string, string> arguments)
+		{
 			string platform = EditorCommandHelpers.ParseArgument<string>(arguments, "platform");
 			string assetBundleDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "assetBundleDirectory");
 
@@ -16,11 +33,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			assetBundleBuilder.BuildAllAssetBundles(platform, assetBundleDirectory);
 		}
 
-		public static void BuildApplicationPackage()
+		public static void BuildApplication(Dictionary<string, string> arguments)
 		{
-			EditorCommandHelpers.ConfigureLogging();
-
-			Dictionary<string, string> arguments = EditorCommandHelpers.FindMethodArguments();
 			string platform = EditorCommandHelpers.ParseArgument<string>(arguments, "platform");
 			string configuration = EditorCommandHelpers.ParseArgument<string>(arguments, "configuration");
 			string assetBundleDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "assetBundleDirectory");

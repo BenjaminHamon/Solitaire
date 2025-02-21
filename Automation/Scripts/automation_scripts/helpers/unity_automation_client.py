@@ -27,7 +27,7 @@ class UnityAutomationClient:
             platform: str, configuration: str, asset_bundle_directory: str, package_directory: str,
             log_file_path: Optional[str] = None, simulate: bool = False) -> None:
 
-        command = "BuildApplicationPackage"
+        command = "BuildApplication"
 
         command_arguments = {
             "platform": platform,
@@ -38,7 +38,7 @@ class UnityAutomationClient:
 
         build_target = self._convert_platform_to_unity_build_target(platform)
 
-        await self.run_command(command, command_arguments, build_target, log_file_path = log_file_path, simulate = simulate)
+        await self.run_editor_command(command, command_arguments, build_target, log_file_path = log_file_path, simulate = simulate)
 
 
     async def build_asset_bundles(self,
@@ -54,20 +54,21 @@ class UnityAutomationClient:
 
         build_target = self._convert_platform_to_unity_build_target(platform)
 
-        await self.run_command(command, command_arguments, build_target, log_file_path = log_file_path, simulate = simulate)
+        await self.run_editor_command(command, command_arguments, build_target, log_file_path = log_file_path, simulate = simulate)
 
 
-    async def run_command(self, # pylint: disable = too-many-arguments
+    async def run_editor_command(self, # pylint: disable = too-many-arguments
             command: str, command_arguments: Dict[str,str],
             build_target: Optional[str] = None, log_file_path: Optional[str] = None, simulate: bool = False) -> None:
 
         unity_arguments = UnityEditorArguments(batch_mode = True, enable_graphics = False, quit_on_completion = True, build_target = build_target)
 
-        command_fully_qualified = self._command_namespace + "." + command
-        command_arguments_formatted = [ "-executeMethodArguments" ] + [ key + "=" + value for key, value in command_arguments.items() ]
+        execute_method = self._command_namespace + "." + "RunEditorCommand"
+        execute_method_arguments = [ "-executeMethodCommand", command ]
+        execute_method_arguments += [ "-executeMethodArguments" ] + [ key + "=" + value for key, value in command_arguments.items() ]
 
         await self._editor_client.execute(
-            unity_arguments, command_fully_qualified,  command_arguments_formatted, log_file_path = log_file_path, simulate = simulate)
+            unity_arguments, execute_method,  execute_method_arguments, log_file_path = log_file_path, simulate = simulate)
 
 
     def _convert_platform_to_unity_build_target(self, platform: Optional[str]) -> Optional[str]:
