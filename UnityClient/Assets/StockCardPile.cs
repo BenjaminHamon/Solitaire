@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BenjaminHamon.Solitaire.UnityClient
 {
@@ -21,23 +22,23 @@ namespace BenjaminHamon.Solitaire.UnityClient
 
 		private void Draw()
 		{
-			Waste.Push(Cards.Peek());
+			Card drawnCard = Cards.Pop();
+			Waste.Push(drawnCard);
 		}
 
 		private void ResetFromWaste()
 		{
-			Card card = Waste.Peek();
+			IEnumerable<Card> wasteCards = Waste.PopAll();
 
-			while (card != null)
+			foreach (Card card in wasteCards)
 			{
 				Push(card);
-				card = Waste.Peek();
 			}
 		}
 
-		protected override void DoPush(Card card)
+		public override void Push(Card card)
 		{
-			base.DoPush(card);
+			base.Push(card);
 
 			card.Visible = false;
 			card.Collider.enabled = false;

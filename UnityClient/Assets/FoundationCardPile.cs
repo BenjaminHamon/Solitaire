@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace BenjaminHamon.Solitaire.UnityClient
@@ -19,30 +19,23 @@ namespace BenjaminHamon.Solitaire.UnityClient
 			}
 		}
 
-		public override bool TryPush(Card card)
+		public override bool CanPush(Card card)
 		{
-			if (card.Parent.Peek() != card)
-				return false;
-
 			Card topCard = Cards.FirstOrDefault();
 			bool canPushAsFirstCard = (topCard == null) && (card.Number == 1);
 			bool canPushAsNextCard = (topCard != null) && (topCard.Type == card.Type) && (topCard.Number == card.Number - 1);
 
-			if (canPushAsFirstCard || canPushAsNextCard)
-			{
-				Push(card);
-				return true;
-			}
-
-			return false;
+			return canPushAsFirstCard || canPushAsNextCard;
 		}
 
-		protected override void DoPush(Card card)
+		public override void Push(Card card)
 		{
-			base.DoPush(card);
+			base.Push(card);
 
 			if (IsComplete)
+			{
 				Completed?.Invoke();
+			}
 		}
 	}
 }

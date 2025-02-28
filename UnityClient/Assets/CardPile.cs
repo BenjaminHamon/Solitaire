@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -13,28 +13,21 @@ namespace BenjaminHamon.Solitaire.UnityClient
 			return Cards.FirstOrDefault();
 		}
 
-		public void Push(Card card)
+		public virtual bool CanPush(Card card)
 		{
-			// Debug.Log("[CardPile] Push " + card + " to " + this, this);
-
-			if (card.Parent == null)
-			{
-				DoPush(card);
-			}
-			else
-			{
-				IEnumerable<Card> poppedCardList = card.Parent.Pop(card);
-				foreach (Card poppedCard in poppedCardList.Reverse())
-					DoPush(poppedCard);
-			}
+			return false;
 		}
 
-		protected virtual void DoPush(Card card)
+		public virtual void Push(Card card)
 		{
-			Vector3 cardPosition = Vector3.zero;
 			Card topCard = Cards.FirstOrDefault();
+			Vector3 cardPosition = Vector3.zero;
+
 			if (topCard != null)
+			{
 				cardPosition = topCard.transform.localPosition;
+			}
+
 			cardPosition.z -= 0.1f;
 			card.transform.localPosition = cardPosition;
 
@@ -43,18 +36,11 @@ namespace BenjaminHamon.Solitaire.UnityClient
 			Cards.Push(card);
 		}
 
-		public IEnumerable<Card> Pop(Card card)
+		public Card Pop()
 		{
-			List<Card> poppedCards = new List<Card>();
-			while (Cards.Peek() != card)
-				poppedCards.Add(Cards.Pop());
-			poppedCards.Add(Cards.Pop());
-			return poppedCards;
-		}
-
-		public virtual bool TryPush(Card card)
-		{
-			return false;
+			Card card = Cards.Pop();
+			card.Parent = null;
+			return card;
 		}
 
 		public void ResetDepth()

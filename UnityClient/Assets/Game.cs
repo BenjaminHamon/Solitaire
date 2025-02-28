@@ -1,4 +1,4 @@
-﻿using BenjaminHamon.Solitaire.UnityClient.Content;
+using BenjaminHamon.Solitaire.UnityClient.Content;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -52,15 +52,24 @@ namespace BenjaminHamon.Solitaire.UnityClient
 			foreach (int pileCardSize in Configuration.Tableau)
 			{
 				TableauCardPile tableauPile = CreateTableauPile();
+
 				for (int pileCardIndex = 0; pileCardIndex < pileCardSize; pileCardIndex++)
+				{
 					tableauPile.Push(cardStack.Pop());
+				}
+
 				Card topCard = tableauPile.Peek();
+
 				if (topCard != null)
+				{
 					topCard.Visible = true;
+				}
 			}
 
 			foreach (Card card in cardStack)
+			{
 				stock.Push(card);
+			}
 		}
 
 		public void Update()

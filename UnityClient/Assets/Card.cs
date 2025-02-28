@@ -1,4 +1,4 @@
-﻿using BenjaminHamon.Solitaire.UnityClient.Content;
+using BenjaminHamon.Solitaire.UnityClient.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ namespace BenjaminHamon.Solitaire.UnityClient
 	public class Card : MonoBehaviour
 	{
 		[SerializeField]
-		private SpriteRenderer renderer = null;
+		private new SpriteRenderer renderer = null;
 		[SerializeField]
-		private Collider2D collider = null;
+		private new Collider2D collider = null;
 		[SerializeField]
 		private Sprite frontSprite = null;
 		[SerializeField]
@@ -124,25 +124,55 @@ namespace BenjaminHamon.Solitaire.UnityClient
 			}
 			else
 			{
-				// Debug.Log("DoubleClick");
-
-				if ((Parent is FoundationCardPile) == false)
-				{
-					foreach (FoundationCardPile foundationCardPile in Game.FoundationCardPiles)
-					{
-						if (foundationCardPile.TryPush(this))
-							break;
-					}
-				}
-
+				TryPushToFoundation();
 				lastClick = 0;
 			}
 
-			if ((Visible == false) && (Parent.Peek() == this))
-				Visible = true;
+			TryRevealInTableau();
 
 			if (draggingHandler != null)
+			{
 				Drop();
+			}
+		}
+
+		private void TryPushToFoundation()
+		{
+			if (Parent != null)
+			{
+				bool parentTypeIsAsExpected = (Parent is TableauCardPile) || (Parent is WasteCardPile);
+				bool cardPositionInPileIsAsExpected = Parent.Peek() == this;
+
+				if (parentTypeIsAsExpected && cardPositionInPileIsAsExpected)
+				{
+					foreach (FoundationCardPile foundationCardPile in Game.FoundationCardPiles)
+					{
+						if (foundationCardPile.CanPush(this))
+						{
+							Parent.Pop();
+							foundationCardPile.Push(this);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		private void TryRevealInTableau()
+		{
+			if (Visible == true)
+				return;
+
+			if (Parent != null)
+			{
+				bool parentTypeIsAsExpected = Parent is TableauCardPile;
+				bool cardPositionInPileIsAsExpected = Parent.Peek() == this;
+
+				if (parentTypeIsAsExpected && cardPositionInPileIsAsExpected)
+				{
+					Visible = true;
+				}
+			}
 		}
 
 		private void StartDragging()
@@ -156,11 +186,16 @@ namespace BenjaminHamon.Solitaire.UnityClient
 			draggingHandler.name = "DraggingHandler";
 			draggingHandler.position = initialPosition;
 
-			transform.SetParent(draggingHandler);
-			if (Parent is TableauCardPile)
+			if (Parent is TableauCardPile parentAsTableauCardPile)
 			{
-				foreach (Card card in ((TableauCardPile)Parent).GetChildren(this))
+				foreach (Card card in parentAsTableauCardPile.EnumerateCardsFrom(this))
+				{
 					card.transform.SetParent(draggingHandler);
+				}
+			}
+			else
+			{
+				transform.SetParent(draggingHandler);
 			}
 		}
 
@@ -168,18 +203,26 @@ namespace BenjaminHamon.Solitaire.UnityClient
 		{
 			// Debug.Log("[Card] Drop");
 
-			List<Card> childCards = new List<Card>();
-			if (Parent is TableauCardPile)
-				childCards = ((TableauCardPile)Parent).GetChildren(this).ToList();
+			List<Card> allMovingCards;
+
+			if (Parent is TableauCardPile parentAsTableauCardPile)
+			{
+				allMovingCards = parentAsTableauCardPile.EnumerateCardsFrom(this).ToList();
+			}
+			else
+			{
+				allMovingCards = new List<Card>() { this };
+			}
 
 			bool moved = false;
 			Bounds bounds = collider.bounds;
 			// Debug.DrawLine(bounds.min, bounds.max, Color.red, 3);
 
 			// Disable dragged card colliders to detect the collider under them
-			collider.enabled = false;
-			foreach (Card child in childCards)
-				child.collider.enabled = false;
+			foreach (Card card in allMovingCards)
+			{
+				card.collider.enabled = false;
+			}
 
 			Collider2D overCollider = Physics2D.OverlapAreaAll(bounds.min, bounds.max)
 				.OrderBy(c => ((Vector2)c.bounds.ClosestPoint(bounds.center) - (Vector2)bounds.center).magnitude).FirstOrDefault();
@@ -188,19 +231,43 @@ namespace BenjaminHamon.Solitaire.UnityClient
 			{
 				// Debug.Log("[Card] Drop on " + overCollider.name, overCollider);
 				CardPile cardPile = overCollider.GetComponentInParent<CardPile>();
-				if (cardPile != null)
-					moved = cardPile.TryPush(this);
+
+				if ((cardPile != null) && cardPile.CanPush(this))
+				{
+					if (Parent != null)
+					{
+						foreach (Card cardToPop in ((IEnumerable<Card>)allMovingCards).Reverse())
+						{
+							if (cardToPop.Parent.Peek() != cardToPop)
+							{
+								throw new InvalidOperationException("Parent last card is not as expected");
+							}
+
+							cardToPop.Parent.Pop();
+						}
+					}
+
+					foreach (Card cardToPush in allMovingCards)
+					{
+						cardPile.Push(cardToPush);
+					}
+
+					moved = true;
+				}
 			}
 
-			collider.enabled = true;
-			foreach (Card child in childCards)
+			foreach (Card child in allMovingCards)
+			{
 				child.collider.enabled = true;
+			}
 
 			if (moved == false)
 			{
-				transform.SetParent(Parent.transform, false);
-				foreach (Card child in childCards)
-					child.transform.SetParent(Parent.transform);
+				foreach (Card child in allMovingCards)
+				{
+					child.transform.SetParent(Parent.transform, false);
+				}
+
 				Parent.ResetDepth();
 			}
 

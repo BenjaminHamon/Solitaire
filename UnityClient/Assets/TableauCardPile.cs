@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BenjaminHamon.Solitaire.UnityClient
@@ -8,29 +8,24 @@ namespace BenjaminHamon.Solitaire.UnityClient
 	{
 		public int CardMaxNumber;
 
-		public override bool TryPush(Card card)
+		public override bool CanPush(Card card)
 		{
 			Card topCard = Cards.FirstOrDefault();
 			bool canPushAsFirstCard = (topCard == null) && (card.Number == CardMaxNumber);
 			bool canPushAsNextCard = (topCard != null) && topCard.Visible && (topCard.Type.ToColor() != card.Type.ToColor()) && (topCard.Number == card.Number + 1);
 
-			if (canPushAsFirstCard || canPushAsNextCard)
+			return canPushAsFirstCard || canPushAsNextCard;
+		}
+
+		/// <summary>Enumerate the cards under the specified card, including the specified card itself.</summary>
+		public IEnumerable<Card> EnumerateCardsFrom(Card baseCard)
+		{
+			yield return baseCard;
+
+			foreach (Card card in Cards.TakeWhile(card => card != baseCard).Reverse())
 			{
-				Push(card);
-				return true;
+				yield return card;
 			}
-
-			return false;
-		}
-
-		public bool CanReveal(Card card)
-		{
-			return Cards.FirstOrDefault() == card;
-		}
-
-		public IEnumerable<Card> GetChildren(Card baseCard)
-		{
-			return Cards.TakeWhile(card => card != baseCard).Reverse();
 		}
 	}
 }
