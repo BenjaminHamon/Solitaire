@@ -1,0 +1,17 @@
+{
+    "name": "BenjaminHamon.Solitaire.UnityClient.Runtime",
+    "rootNamespace": "BenjaminHamon.Solitaire.UnityClient.Runtime",
+    "references": [
+        "GUID:a73d2872e8ecbe74a975fdce17773261",
+        "GUID:184fe15fc7ce990418121ba725e359db"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

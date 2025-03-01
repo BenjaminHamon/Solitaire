@@ -1,0 +1,14 @@
+{
+    "name": "BenjaminHamon.Solitaire.UnityClient.UnityExtensions",
+    "rootNamespace": "BenjaminHamon.Solitaire.UnityClient.UnityExtensions",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

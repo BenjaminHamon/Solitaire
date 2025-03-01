@@ -18,7 +18,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			UnityEngine.Debug.LogFormat("[ApplicationBuilder] Building application for platform '{0}' with configuration '{1}'", platform, configuration);
 
 			BuildOptions options = GetOptions(configuration);
-			string packagePath = GetPackagePath(unityTarget, applicationDirectory, Application.ApplicationFullName);
+			string packagePath = GetPackagePath(unityTarget, applicationDirectory, "BenjaminHamon.Solitaire");
 			List<string> sceneCollection = new List<string>() { "Assets/MenuScene.unity", "Assets/GameScene.unity" };
 
 			BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()

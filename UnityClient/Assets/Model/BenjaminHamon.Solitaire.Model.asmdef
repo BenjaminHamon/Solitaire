@@ -1,0 +1,14 @@
+{
+    "name": "BenjaminHamon.Solitaire.Model",
+    "rootNamespace": "BenjaminHamon.Solitaire.Model",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

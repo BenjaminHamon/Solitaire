@@ -203,8 +203,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1847957696}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1847957695}
+        m_TargetAssemblyTypeName: BenjaminHamon.Solitaire.UnityClient.Runtime.GameMenu,
+          BenjaminHamon.Solitaire.UnityClient.Runtime
         m_MethodName: Exit
         m_Mode: 1
         m_Arguments:
@@ -924,8 +925,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1847957696}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1847957695}
+        m_TargetAssemblyTypeName: BenjaminHamon.Solitaire.UnityClient.Runtime.GameMenu,
+          BenjaminHamon.Solitaire.UnityClient.Runtime
         m_MethodName: SetLastSeed
         m_Mode: 1
         m_Arguments:
@@ -1223,8 +1225,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1847957696}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1847957695}
+        m_TargetAssemblyTypeName: BenjaminHamon.Solitaire.UnityClient.Runtime.GameMenu,
+          BenjaminHamon.Solitaire.UnityClient.Runtime
         m_MethodName: SetRandomSeed
         m_Mode: 1
         m_Arguments:
@@ -1336,8 +1339,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1847957696}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1847957695}
+        m_TargetAssemblyTypeName: BenjaminHamon.Solitaire.UnityClient.Runtime.GameMenu,
+          BenjaminHamon.Solitaire.UnityClient.Runtime
         m_MethodName: StartNewGame
         m_Mode: 1
         m_Arguments:
@@ -1620,7 +1624,7 @@ GameObject:
   - component: {fileID: 1847957694}
   - component: {fileID: 1847957693}
   - component: {fileID: 1847957692}
-  - component: {fileID: 1847957696}
+  - component: {fileID: 1847957695}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -1711,7 +1715,7 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1847957696
+--- !u!114 &1847957695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1720,7 +1724,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1847957690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37af5f84f1088a1428f4003822a2ce58, type: 3}
+  m_Script: {fileID: 11500000, guid: 55eb1b2f6ccfbdc4c86168825d20f806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   seedInput: {fileID: 1794071814}
