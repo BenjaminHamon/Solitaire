@@ -49,11 +49,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 			allCardViews.AddRange(StockAndWaste.EnumerateCards());
 			allCardViews.AddRange(Foundation.EnumerateCards());
 			allCardViews.AddRange(Tableau.EnumerateCards());
-
-			foreach (CardView cardView in allCardViews)
-			{
-				cardView.Foundation = Foundation;
-			}
 		}
 
 		public void Start()

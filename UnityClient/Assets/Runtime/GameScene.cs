@@ -1,5 +1,6 @@
 using BenjaminHamon.Solitaire.Model;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 using System;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
     {
 		[SerializeField]
 		private GameObject GamePrefab;
+		[SerializeField]
+		private HumanController Controller;
 		[SerializeField]
 		private GameConfiguration Configuration = null;
 		[SerializeField]
@@ -39,6 +42,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			gameView = newGameObject.GetComponent<GameView>();
 			gameView.Model = game;
 			gameView.SetUp();
+
+			Controller.Game = gameView;
 		}
 
 		public virtual void OnEnable()

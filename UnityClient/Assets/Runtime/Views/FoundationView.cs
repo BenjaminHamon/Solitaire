@@ -34,11 +34,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 
 		private List<FoundationCardPileView> PileCollection = new List<FoundationCardPileView>();
 
-		public IEnumerable<FoundationCardPileView> EnumeratePiles()
-		{
-			return PileCollection.AsReadOnly();
-		}
-
 		public IEnumerable<CardView> EnumerateCards()
 		{
 			foreach (FoundationCardPileView pile in PileCollection)
@@ -48,6 +43,11 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 					yield return card;
 				}
 			}
+		}
+
+		public bool TryPush(CardView card)
+		{
+			return Model.TryPush(card.Model);
 		}
 
 		public void AddCardPile(FoundationCardPile foundationCardPile, int pileIndex)

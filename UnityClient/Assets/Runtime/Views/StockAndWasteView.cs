@@ -39,7 +39,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 			}
 		}
 
-		public void OnMouseUp()
+		public void TryDrawOrReset()
 		{
 			if (Model.CanDraw())
 			{

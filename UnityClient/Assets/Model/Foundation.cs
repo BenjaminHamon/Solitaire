@@ -39,6 +39,26 @@ namespace BenjaminHamon.Solitaire.Model
 			}
 		}
 
+		public bool TryPush(Card card)
+		{
+			foreach (FoundationCardPile foundationCardPile in pileCollection)
+			{
+				if (foundationCardPile.CanPush(card))
+				{
+					if (card.Parent != null)
+					{
+						card.Parent.Pop();
+					}
+
+					foundationCardPile.Push(card);
+
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		private void HandlePileCompleted()
 		{
 			if (AreAllPilesCompleted())

@@ -33,10 +33,10 @@ namespace BenjaminHamon.Solitaire.Model
 			}
 		}
 
-		public void TryReveal()
+		public bool TryReveal()
 		{
 			if (Visible == true)
-				return;
+				return false;
 
 			if (Parent != null)
 			{
@@ -48,6 +48,8 @@ namespace BenjaminHamon.Solitaire.Model
 					Visible = true;
 				}
 			}
+
+			return Visible;
 		}
 
 		public override string ToString()

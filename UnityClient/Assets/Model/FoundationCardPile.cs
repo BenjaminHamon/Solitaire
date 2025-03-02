@@ -25,11 +25,19 @@ namespace BenjaminHamon.Solitaire.Model
 
 		public override bool CanPush(Card card)
 		{
-			Card topCard = cardCollection.FirstOrDefault();
-			bool canPushAsFirstCard = (topCard == null) && (card.Number == 1);
-			bool canPushAsNextCard = (topCard != null) && (topCard.Type == card.Type) && (topCard.Number == card.Number - 1);
+			bool parentTypeIsAsExpected = (card.Parent is TableauCardPile) || (card.Parent is WasteCardPile);
+			bool cardPositionInPileIsAsExpected = card.Parent.Peek() == card;
 
-			return canPushAsFirstCard || canPushAsNextCard;
+			if (parentTypeIsAsExpected && cardPositionInPileIsAsExpected)
+			{
+				Card topCard = cardCollection.FirstOrDefault();
+				bool canPushAsFirstCard = (topCard == null) && (card.Number == 1);
+				bool canPushAsNextCard = (topCard != null) && (topCard.Type == card.Type) && (topCard.Number == card.Number - 1);
+
+				return canPushAsFirstCard || canPushAsNextCard;
+			}
+
+			return false;
 		}
 
 		public override void Push(Card card)
