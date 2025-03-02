@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace BenjaminHamon.Solitaire.UnityClient.Runtime
+namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 {
 	public class CardView : ViewElement
 	{

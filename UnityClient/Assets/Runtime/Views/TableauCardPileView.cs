@@ -2,7 +2,7 @@ using BenjaminHamon.Solitaire.Model;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BenjaminHamon.Solitaire.UnityClient.Runtime
+namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 {
 	/// <summary>The tableau is the main area, where the player can place cards as sequences of alternating color and reveal hidden cards.</summary>
 	public class TableauCardPileView : CardPileView

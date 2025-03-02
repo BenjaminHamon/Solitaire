@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BenjaminHamon.Solitaire.UnityClient.Runtime
+namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 {
 	public class TableauView : ViewElement
 	{

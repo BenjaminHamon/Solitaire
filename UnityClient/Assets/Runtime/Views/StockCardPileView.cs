@@ -2,7 +2,7 @@ using BenjaminHamon.Solitaire.Model;
 using System;
 using System.Linq;
 
-namespace BenjaminHamon.Solitaire.UnityClient.Runtime
+namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 {
 	/// <summary>The stock is the pile with the leftover cards from the setup, from which the player can draw.</summary>
 	public class StockCardPileView : CardPileView

@@ -2,7 +2,7 @@ using BenjaminHamon.Solitaire.Model;
 using System.Linq;
 using System;
 
-namespace BenjaminHamon.Solitaire.UnityClient.Runtime
+namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 {
 	/// <summary>The waste is the card pile where cards drawn from the stock are put.</summary>
 	public class WasteCardPileView : CardPileView

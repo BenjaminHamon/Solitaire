@@ -1,5 +1,6 @@
 using BenjaminHamon.Solitaire.Model;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;

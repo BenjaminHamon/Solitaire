@@ -1,7 +1,7 @@
 using BenjaminHamon.Solitaire.Model;
 using System;
 
-namespace BenjaminHamon.Solitaire.UnityClient.Runtime
+namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 {
 	/// <summary>The foundations are the piles where the player must stack cards as same type sequences to achieve victory.</summary>
 	public class FoundationCardPileView : CardPileView

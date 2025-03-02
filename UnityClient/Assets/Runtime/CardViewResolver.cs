@@ -1,9 +1,6 @@
 using BenjaminHamon.Solitaire.Model;
-using System;
-using System.Collections.Generic;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
