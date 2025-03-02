@@ -4,7 +4,8 @@ using System.Linq;
 
 namespace BenjaminHamon.Solitaire.Model
 {
-    public class Foundation
+	/// <summary>The foundations are the piles where the player must stack cards as same type sequences to achieve victory.</summary>
+	public class Foundation
 	{
 		public event Action AllPilesCompleted;
 

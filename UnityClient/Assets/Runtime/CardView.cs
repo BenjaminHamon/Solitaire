@@ -127,7 +127,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		{
 			if (Parent != null)
 			{
-				bool parentTypeIsAsExpected = (Parent is TableauCardPileView) || (Parent is WasteView);
+				bool parentTypeIsAsExpected = (Parent is TableauCardPileView) || (Parent is WasteCardPileView);
 				bool cardPositionInPileIsAsExpected = Parent.Peek() == this;
 
 				if (parentTypeIsAsExpected && cardPositionInPileIsAsExpected)

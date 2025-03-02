@@ -15,8 +15,7 @@ namespace BenjaminHamon.Solitaire.Model
 		private readonly GameConfiguration configuration;
 		private readonly Random random;
 
-		public Stock Stock { get; private set; }
-		public Waste Waste { get; private set; }
+		public StockAndWaste StockAndWaste { get; private set; }
 		public Foundation Foundation { get; private set; }
 		public Tableau Tableau { get; private set; }
 
@@ -24,8 +23,7 @@ namespace BenjaminHamon.Solitaire.Model
 
 		public void Initialize()
 		{
-			Stock = null;
-			Waste = null;
+			StockAndWaste = null;
 			Foundation = null;
 			Tableau = null;
 
@@ -71,8 +69,7 @@ namespace BenjaminHamon.Solitaire.Model
 
 		private void SetUpCardPiles(IEnumerable<Card> cardDeck)
 		{
-			Waste = new Waste();
-			Stock = new Stock(Waste);
+			StockAndWaste = new StockAndWaste();
 			Foundation = new Foundation();
 			Tableau = new Tableau();
 
@@ -102,7 +99,7 @@ namespace BenjaminHamon.Solitaire.Model
 
 			foreach (Card card in deckAsStack)
 			{
-				Stock.Push(card);
+				StockAndWaste.PushToStock(card);
 			}
 		}
 

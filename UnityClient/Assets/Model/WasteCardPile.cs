@@ -3,8 +3,7 @@ using System.Linq;
 
 namespace BenjaminHamon.Solitaire.Model
 {
-	/// <summary>The waste is the card pile where cards drawn from the stock are put.</summary>
-	public class Waste : CardPile
+	public class WasteCardPile : CardPile
 	{
 		public override void Push(Card card)
 		{

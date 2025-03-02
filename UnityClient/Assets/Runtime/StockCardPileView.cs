@@ -1,15 +1,15 @@
 using BenjaminHamon.Solitaire.Model;
-using System.Linq;
 using System;
+using System.Linq;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
-	/// <summary>The waste is the card pile where cards drawn from the stock are put.</summary>
-	public class WasteView : CardPileView
+	/// <summary>The stock is the pile with the leftover cards from the setup, from which the player can draw.</summary>
+	public class StockCardPileView : CardPileView
 	{
-		public new Waste Model
+		public new StockCardPile Model
 		{
-			get { return (Waste)ModelAsObject; }
+			get { return (StockCardPile)ModelAsObject; }
 			set { ModelAsObject = value; }
 		}
 
@@ -24,7 +24,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 				throw new ApplicationException("CardView does not match Card");
 			}
 
-			pushedCardView.EnableInteractivity();
+			pushedCardView.DisableInteractivity();
 		}
 	}
 }

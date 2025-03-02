@@ -2,7 +2,8 @@ using System.Collections.Generic;
 
 namespace BenjaminHamon.Solitaire.Model
 {
-    public class Tableau
+	/// <summary>The tableau is the main area, where the player can place cards as sequences of alternating color and reveal hidden cards.</summary>
+	public class Tableau
     {
 		private List<TableauCardPile> pileCollection = new List<TableauCardPile>();
 

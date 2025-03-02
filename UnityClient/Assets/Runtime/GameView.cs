@@ -21,8 +21,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		public Action Completed;
 
-		public StockView Stock = null;
-		public WasteView Waste = null;
+		public StockAndWasteView StockAndWaste = null;
 		public FoundationView Foundation = null;
 		public TableauView Tableau = null;
 
@@ -39,18 +38,15 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		public void SetUp()
 		{
-			Stock.Model = Model.Stock;
-			Waste.Model = Model.Waste;
+			StockAndWaste.Model = Model.StockAndWaste;
 			Foundation.Model = Model.Foundation;
 			Tableau.Model = Model.Tableau;
 
-			Stock.SetUp(cardViewResolver);
-			Waste.SetUp(cardViewResolver);
+			StockAndWaste.SetUp(cardViewResolver);
 			Foundation.SetUp(cardViewResolver);
 			Tableau.SetUp(cardViewResolver);
 
-			allCardViews.AddRange(Stock.EnumerateCards());
-			allCardViews.AddRange(Waste.EnumerateCards());
+			allCardViews.AddRange(StockAndWaste.EnumerateCards());
 			allCardViews.AddRange(Foundation.EnumerateCards());
 			allCardViews.AddRange(Tableau.EnumerateCards());
 

@@ -3,7 +3,6 @@ using System.Linq;
 
 namespace BenjaminHamon.Solitaire.Model
 {
-	/// <summary>The foundations are the piles where the player must stack cards as same type sequences to achieve victory.</summary>
 	public class FoundationCardPile : CardPile
 	{
 		public FoundationCardPile(int cardMaxNumber)
