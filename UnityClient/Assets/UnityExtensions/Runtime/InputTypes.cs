@@ -1,4 +1,4 @@
-namespace BenjaminHamon.Solitaire.UnityExtensions
+namespace BenjaminHamon.Solitaire.UnityExtensions.Runtime
 {
 	public static class InputTypes
 	{

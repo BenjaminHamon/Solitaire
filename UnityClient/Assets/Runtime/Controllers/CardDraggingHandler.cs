@@ -1,5 +1,5 @@
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
-using BenjaminHamon.Solitaire.UnityExtensions;
+using BenjaminHamon.Solitaire.UnityExtensions.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;

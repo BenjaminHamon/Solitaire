@@ -1,6 +1,6 @@
 {
-    "name": "BenjaminHamon.Solitaire.UnityClient.UnityExtensions",
-    "rootNamespace": "BenjaminHamon.Solitaire.UnityClient.UnityExtensions",
+    "name": "BenjaminHamon.Solitaire.UnityExtensions.Editor",
+    "rootNamespace": "BenjaminHamon.Solitaire.UnityExtensions.Editor",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

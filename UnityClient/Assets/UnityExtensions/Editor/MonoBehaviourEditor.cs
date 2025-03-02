@@ -1,4 +1,3 @@
-using BenjaminHamon.Solitaire.UnityExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +5,9 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace BenjaminHamon.Solitaire.UnityClient.Editor
+namespace BenjaminHamon.Solitaire.UnityExtensions.Editor
 {
 	/// <summary>Inspector to expose a component properties with <see cref="ExposePropertyAttribute"/>.</summary>
-	/// <see href="http://wiki.unity3d.com/index.php/ExposePropertiesInInspector_Generic"/>
 	[CustomEditor(typeof(MonoBehaviour), true)]
 	public class MonoBehaviourEditor : UnityEditor.Editor
 	{
