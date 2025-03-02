@@ -2,7 +2,9 @@
     "name": "BenjaminHamon.Solitaire.UnityExtensions.Editor",
     "rootNamespace": "BenjaminHamon.Solitaire.UnityExtensions.Editor",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
