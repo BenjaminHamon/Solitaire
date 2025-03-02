@@ -52,11 +52,15 @@ namespace BenjaminHamon.Solitaire.Model
 		{
 			List<Card> cardDeck = new List<Card>();
 
+			int numberInDeck = 1;
+
 			foreach (CardType cardType in configuration.CardTypes)
 			{
 				for (int cardNumber = 1; cardNumber <= configuration.CardMaxNumber; cardNumber++)
 				{
-					cardDeck.Add(new Card(cardType, cardNumber));
+					Card newCard = new Card(numberInDeck, cardType, cardNumber);
+					cardDeck.Add(newCard);
+					numberInDeck += 1;
 				}
 			}
 

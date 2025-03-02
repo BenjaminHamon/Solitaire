@@ -246,7 +246,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		public override string ToString()
 		{
-			return String.Format("CardView {0} {1}", Model.Type, Model.Number);
+			return String.Format("CardView {0} ({1} {2})", Model.NumberInDeck, Model.Type, Model.Number);
 		}
 	}
 }

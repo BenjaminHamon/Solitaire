@@ -1,4 +1,5 @@
 using BenjaminHamon.Solitaire.Model;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,9 +18,12 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		public void SetUp(CardViewResolver cardViewResolver)
 		{
+			int pileIndex = 0;
+
 			foreach (FoundationCardPile foundationCardPile in Model.EnumeratePiles())
 			{
-				AddCardPile(foundationCardPile);
+				AddCardPile(foundationCardPile, pileIndex);
+				pileIndex += 1;
 			}
 
 			foreach (FoundationCardPileView foundationCardPileView in PileCollection)
@@ -46,12 +50,15 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			}
 		}
 
-		public void AddCardPile(FoundationCardPile foundationCardPile)
+		public void AddCardPile(FoundationCardPile foundationCardPile, int pileIndex)
 		{
 			GameObject newGameObject = Instantiate(CardPilePrefab);
+			newGameObject.name = String.Format("FoundationCardPile {0}", pileIndex + 1);
+			newGameObject.transform.SetParent(transform);
+
 			FoundationCardPileView foundationCardPileView = newGameObject.GetComponent<FoundationCardPileView>();
 			foundationCardPileView.Model = foundationCardPile;
-			newGameObject.transform.SetParent(transform);
+
 			PileCollection.Add(foundationCardPileView);
 		}
 	}

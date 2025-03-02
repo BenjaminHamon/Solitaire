@@ -63,6 +63,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		{
 			GameObject cardPrefab = ApplicationStatic.AssetLoader.LoadByPath<GameObject>(null, "Prefabs/Card.prefab");
 			GameObject newGameObject = Instantiate(cardPrefab);
+			newGameObject.name = String.Format("Card {0} ({1} {2})", card.NumberInDeck, card.Type, card.Number);
+
 			CardView cardView = newGameObject.GetComponent<CardView>();
 			cardView.Model = card;
 			cardView.Parent = this;

@@ -33,6 +33,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			game.Initialize();
 
 			GameObject newGameObject = Instantiate(GamePrefab);
+			newGameObject.name = "Game";
+
 			gameView = newGameObject.GetComponent<GameView>();
 			gameView.Model = game;
 			gameView.SetUp();

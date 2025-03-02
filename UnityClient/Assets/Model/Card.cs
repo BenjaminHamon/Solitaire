@@ -4,12 +4,14 @@ namespace BenjaminHamon.Solitaire.Model
 {
 	public class Card
 	{
-		public Card(CardType type, int number)
+		public Card(int numberInDeck, CardType type, int number)
 		{
+			this.NumberInDeck = numberInDeck;
 			this.Type = type;
 			this.Number = number;
 		}
 
+		public int NumberInDeck { get; }
 		public CardType Type { get; }
 		public int Number { get; }
 
@@ -50,7 +52,7 @@ namespace BenjaminHamon.Solitaire.Model
 
 		public override string ToString()
 		{
-			return String.Format("Card {0} {1}", Type, Number);
+			return String.Format("Card {0} ({1} {2})", NumberInDeck, Type, Number);
 		}
 	}
 }
