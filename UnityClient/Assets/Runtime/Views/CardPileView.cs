@@ -1,4 +1,5 @@
 using BenjaminHamon.Solitaire.Model;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 
 		private CardView InstantiateCard(Card card)
 		{
-			GameObject cardPrefab = ApplicationStatic.AssetLoader.LoadByPath<GameObject>(null, "Prefabs/Card.prefab");
+			GameObject cardPrefab = ApplicationStatic.AssetLoader.LoadByPath<GameObject>(AssetBundleNames.Prefabs, "Prefabs/Card.prefab");
 			GameObject newGameObject = Instantiate(cardPrefab);
 			newGameObject.name = String.Format("Card {0} ({1} {2})", card.NumberInDeck, card.Type, card.Number);
 

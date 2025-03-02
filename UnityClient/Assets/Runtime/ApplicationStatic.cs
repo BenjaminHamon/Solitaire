@@ -18,6 +18,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 #if UNITY_EDITOR
 		private static bool UseAssetBundlesInEditor = false;
+		private static string AssetBundlesPathInEditor = Path.Combine("..", "Artifacts", "AssetBundles", GetAssetBundlePlatform(UnityEngine.Application.platform));
 #endif
 
 		public static readonly AssetLoader<UnityEngine.Object> AssetLoader;
@@ -29,7 +30,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			{
 				if (UseAssetBundlesInEditor)
 				{
-					return new AssetLoaderUsingBundles(Path.Combine("AssetBundles", GetAssetBundlePlatform(UnityEngine.Application.platform)));
+					return new AssetLoaderUsingBundles(AssetBundlesPathInEditor);
 				}
 
 				return new EditorAssetLoader();

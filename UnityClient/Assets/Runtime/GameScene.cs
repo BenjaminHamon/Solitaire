@@ -25,6 +25,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		public void Start()
 		{
 			ApplicationStatic.AssetLoader.LoadBundle(AssetBundleNames.Cards);
+			ApplicationStatic.AssetLoader.LoadBundle(AssetBundleNames.Prefabs);
 
 			if (ApplicationStatic.GameSeed != null)
 			{
@@ -90,6 +91,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			}
 
 			ApplicationStatic.AssetLoader.UnloadBundle(AssetBundleNames.Cards);
+			ApplicationStatic.AssetLoader.UnloadBundle(AssetBundleNames.Prefabs);
 		}
 
 		private void Exit()
