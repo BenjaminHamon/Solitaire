@@ -1,0 +1,31 @@
+#Body {
+	font-size: 200%;
+	background-color: #2e6f40;
+}
+
+Label {
+	border-color: #777777;
+	color: #bbbbbb;
+}
+
+TextInput {
+	background-color: #253d2c;
+	color: #eeeeee;
+	--unity-cursor-color: #eeeeee;
+}
+
+Button {
+	background-color: #cfffdc;
+	border-color: #111111;
+	border-radius: 10px;
+    border-width: 0 2% 4% 0;
+	color: #111111;
+}
+
+Button:enabled:hover {
+	color: #2e6f40;
+}
+
+Button:active {
+	border-width: 2% 0 0 1%;
+}

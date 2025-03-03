@@ -1,6 +1,9 @@
 {
 	"$schema": "./schema.json",
 
+	// USS
+	"css.lint.vendorPrefix": "ignore",
+
 	// Isort
 	"isort.args": [ "--settings-file", ".isort.cfg" ],
 
