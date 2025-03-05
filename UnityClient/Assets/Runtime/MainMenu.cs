@@ -1,6 +1,7 @@
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -9,6 +10,15 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
 	public class MainMenu : MonoBehaviour
 	{
+		public MainMenu()
+		{
+			SeedInputMaxLength = Int32.MaxValue.ToString().Length - 1;
+			SeedMaxValue = Convert.ToInt32(Math.Pow(10, SeedInputMaxLength)) - 1;
+		}
+
+		private readonly int SeedInputMaxLength;
+		private readonly int SeedMaxValue;
+
 		[SerializeField]
 		private UIDocument UIDocument;
 
@@ -103,16 +113,29 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		private void HandleSeedChanged(ChangeEvent<string> e)
 		{
-			Seed = e.newValue != "" ? Convert.ToInt32(e.newValue) : 0;
+			string valueAsString = e.newValue;
 
-			TextField seedInput = (TextField) e.target;
-			seedInput.value = Seed.ToString();
+			if (valueAsString.Length <= SeedInputMaxLength)
+			{
+				valueAsString = Regex.Replace(e.newValue, @"[^0-9]+", "");
+				Seed = valueAsString != "" ? Convert.ToInt32(valueAsString) : 0;
+
+				TextField seedInput = (TextField)e.target;
+				seedInput.value = Seed.ToString();
+			}
+			else
+			{
+				TextField seedInput = (TextField)e.target;
+				seedInput.value = String.IsNullOrEmpty(e.previousValue) ? Seed.ToString() : e.previousValue;
+				seedInput.cursorIndex -= valueAsString.Length - SeedInputMaxLength;
+				seedInput.textSelection.SelectNone();
+			}
 		}
 
 		private void SetRandomSeed()
 		{
 			System.Random random = new System.Random();
-			Seed = random.Next();
+			Seed = random.Next(SeedMaxValue + 1);
 
 			TextField seedInput = UIDocument.rootVisualElement.Query<TextField>("SeedInput");
 			seedInput.value = Seed.ToString();
