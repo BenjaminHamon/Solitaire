@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 {
+	/// <summary>Track time, position and collider associated with mouse actions.</summary>
     public class MouseTracker
     {
 		public Camera Camera { get; set; }

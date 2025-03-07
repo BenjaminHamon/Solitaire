@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 {
-	public class HumanController : MonoBehaviour
+	/// <summary>Triggers game actions as commanded by input from an actual user.</summary>
+	public class InputController : MonoBehaviour
 	{
 		[SerializeField]
 		private Camera Camera;
@@ -109,6 +110,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 								{
 									GameObject draggingHandlerGameObject = Instantiate(DraggingHandlerPrefab);
 									draggingHandlerGameObject.name = "DraggingHandler";
+
 									draggingHandler = draggingHandlerGameObject.GetComponent<CardDraggingHandler>();
 									draggingHandler.Camera = Camera;
 									draggingHandler.Card = card;

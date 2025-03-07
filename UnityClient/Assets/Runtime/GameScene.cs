@@ -13,7 +13,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		[SerializeField]
 		private GameObject GamePrefab;
 		[SerializeField]
-		private HumanController Controller;
+		private InputController Controller;
 		[SerializeField]
 		private GameConfiguration Configuration = null;
 		[SerializeField]

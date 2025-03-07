@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 {
+	/// <summary>Game object handling a single action of dragging cards.</summary>
     public class CardDraggingHandler : MonoBehaviour
 	{
 		public Camera Camera;
@@ -33,6 +34,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 
 			foreach (CardView cardView in allMovingCards)
 			{
+				// Disable interactivty for dragged cards to detect the card underneath on drop.
 				cardView.DisableInteractivity();
 			}
 
@@ -65,7 +67,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 		{
 			bool moved = false;
 			Bounds bounds = Card.ColliderBounds;
-			Debug.DrawLine(bounds.min, bounds.max, Color.red, 3);
 
 			Collider2D overCollider = Physics2D.OverlapAreaAll(bounds.min, bounds.max)
 				.OrderBy(c => ((Vector2)c.bounds.ClosestPoint(bounds.center) - (Vector2)bounds.center).magnitude).FirstOrDefault();
