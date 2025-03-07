@@ -13,38 +13,54 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 
 		public GameView Game;
 
-		private float lastMouseDownTime;
-		private Vector3 lastMouseDownPosition;
-		private Collider2D lastMouseDownCollider;
-		private float lastMouseUpTime;
-		private Vector3 lastMouseUpPosition;
-		private Collider2D lastMouseUpCollider;
-
+		private readonly MouseTracker mouseTracker = new MouseTracker();
 		private CardDraggingHandler draggingHandler;
+
+		private void Start()
+		{
+			mouseTracker.Camera = Camera;
+		}
 
 		public void Update()
 		{
-			TryDrawOrResetStock();
-			TryStartDraggingCard();
-			TryRevealCard();
-			TryPushCardToFoundation();
+			bool performedAction = false;
 
-			if (Input.GetMouseButtonDown(InputTypes.LeftClick))
+			if ((mouseTracker.LastMouseDownTime != 0) && (Time.time > mouseTracker.LastMouseDownTime + 1))
 			{
-				lastMouseDownTime = Time.time;
-				lastMouseDownPosition = Camera.ScreenToWorldPoint(Input.mousePosition);
-				lastMouseDownCollider = Physics2D.Raycast(Camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero).collider;
+				mouseTracker.UnsetMouseDownTracking();
 			}
 
-			if (Input.GetMouseButtonUp(InputTypes.LeftClick))
+			if ((mouseTracker.LastMouseUpTime != 0) && (Time.time > mouseTracker.LastMouseUpTime + 1))
 			{
-				lastMouseUpTime = Time.time;
-				lastMouseUpPosition = Camera.ScreenToWorldPoint(Input.mousePosition);
-				lastMouseUpCollider = Physics2D.Raycast(Camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero).collider;
+				mouseTracker.UnsetMouseUpTracking();
+			}
+
+			if (TryDrawOrResetStock()) { performedAction = true; }
+			if (TryStartDraggingCard()) { performedAction = true; }
+			if (TryRevealCard()) { performedAction = true; }
+			if (TryPushCardToFoundation()) { performedAction = true; }
+
+			if ((performedAction == false) && Input.GetMouseButtonDown(InputTypes.LeftClick))
+			{
+				mouseTracker.SetMouseDownTracking();
+			}
+
+			if ((performedAction == false) && Input.GetMouseButtonUp(InputTypes.LeftClick))
+			{
+				mouseTracker.SetMouseUpTracking();
+			}
+
+			if (performedAction)
+			{
+				// Reset mouse tracking between two user actions
+				// to avoid things like PushCardToFoundation acting on a double click from a previous click acted on by RevealCard.
+
+				mouseTracker.UnsetMouseDownTracking();
+				mouseTracker.UnsetMouseUpTracking();
 			}
 		}
 
-		public bool TryDrawOrResetStock()
+		private bool TryDrawOrResetStock()
 		{
 			if (Input.GetMouseButtonUp(InputTypes.LeftClick))
 			{
@@ -74,7 +90,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 
 			if (Input.GetMouseButton(InputTypes.LeftClick))
 			{
-				if (Time.time - lastMouseDownTime > 0.05f) // Check for actual dragging and not click
+				if (Time.time > mouseTracker.LastMouseDownTime) // Check for actual dragging and not click
 				{
 					RaycastHit2D hit = Physics2D.Raycast(Camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
@@ -84,10 +100,10 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 
 						if ((card != null) && (card.IsVisible == true))
 						{
-							if (lastMouseDownCollider == hit.collider)
+							if (mouseTracker.LastMouseDownCollider == hit.collider)
 							{
 								Vector3 mouseCurrentPosition = Camera.ScreenToWorldPoint(Input.mousePosition);
-								float dragDelta = ((Vector2)mouseCurrentPosition - (Vector2)lastMouseDownPosition).magnitude;
+								float dragDelta = ((Vector2)mouseCurrentPosition - (Vector2)mouseTracker.LastMouseDownPosition).magnitude;
 
 								if (dragDelta > 0.1f) // Check for actual dragging and not long click
 								{
@@ -132,28 +148,19 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 		{
 			if (Input.GetMouseButtonUp(InputTypes.LeftClick))
 			{
-				if (Time.time - lastMouseUpTime < 0.5f) // Check for double click
+				if (Time.time - mouseTracker.LastMouseUpTime < 0.5f) // Check for double click
 				{
 					RaycastHit2D hit = Physics2D.Raycast(Camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
 					if (hit.collider != null)
 					{
-						if (lastMouseUpCollider == hit.collider)
+						if (mouseTracker.LastMouseUpCollider == hit.collider)
 						{
 							CardView card = hit.collider.GetComponent<CardView>();
 
 							if (card != null)
 							{
-								Game.Foundation.TryPush(card);
-							}
-						}
-						else
-						{
-							CardView card = hit.collider.GetComponent<CardView>();
-
-							if (card != null)
-							{
-								card.TryReveal();
+								return Game.Foundation.TryPush(card);
 							}
 						}
 					}
