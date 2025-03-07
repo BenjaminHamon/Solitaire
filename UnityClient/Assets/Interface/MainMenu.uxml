@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Interface/DefaultGeneric.uss?fileID=7433441132597879392&amp;guid=0dae6057cfb4d3946bf003c5d37878d1&amp;type=3#DefaultGeneric" />
+    <Style src="project://database/Assets/Interface/LandscapeHighResolutionStyles.uss?fileID=7433441132597879392&amp;guid=9e48ec4e46811044a8894726f48d4095&amp;type=3#LandscapeHighResolutionStyles" />
+    <ui:VisualElement name="Body">
+        <ui:VisualElement name="MainMenu">
+            <ui:Button text="New Game" name="NewGameButton" />
+            <ui:VisualElement name="SeedGroup">
+                <ui:Label text="Seed" name="SeedLabel" />
+                <ui:TextField name="SeedInput" />
+                <ui:VisualElement name="SeedGroupButtons">
+                    <ui:Button text="Random" name="RandomSeedButton" />
+                    <ui:Button text="Last" name="LastSeedButton" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button text="Exit" name="ExitButton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -45,6 +45,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			gameView.SetUp();
 
 			Controller.Game = gameView;
+
+			Screen.orientation = ScreenOrientation.LandscapeLeft;
 		}
 
 		public virtual void OnEnable()
@@ -92,6 +94,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 			ApplicationStatic.AssetLoader.UnloadBundle(AssetBundleNames.Cards);
 			ApplicationStatic.AssetLoader.UnloadBundle(AssetBundleNames.Prefabs);
+
+			Screen.orientation = ScreenOrientation.AutoRotation;
 		}
 
 		private void Exit()

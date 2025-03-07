@@ -1,0 +1,60 @@
+#Body {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	flex-grow: 1;
+}
+
+#MainMenu {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	width: 100%;
+}
+
+#MainMenu Label {
+	border-bottom-width: 2%;
+}
+
+#MainMenu > #NewGameButton {
+	margin: 2%;
+	margin-top: 4%;
+	margin-bottom: 4%;
+}
+
+#MainMenu > #SeedGroup {
+	display: flex;
+	flex-direction: column;
+	justify-content: stretch;
+	align-items: stretch;
+	flex-grow: 1;
+	margin: 2%;
+}
+
+#MainMenu > #SeedGroup > * {
+	margin: 2% 0;
+}
+
+#MainMenu > #SeedGroup > #SeedLabel {
+	margin-left: 0;
+	-unity-text-align: middle-center;
+}
+
+#MainMenu > #SeedGroup > #SeedInput > TextInput {
+	-unity-text-align: middle-right;
+}
+
+#MainMenu > #SeedGroup > #SeedGroupButtons {
+    display: flex;
+    flex-direction: column;
+}
+
+#MainMenu > #SeedGroup > #SeedGroupButtons > Button {
+    margin: 2% 0;
+}
+
+#MainMenu > #ExitButton {
+	margin: 2%;
+	margin-bottom: 4%;
+	margin-top: auto;
+}
