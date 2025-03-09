@@ -24,12 +24,12 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		public void Start()
 		{
-			ApplicationStatic.AssetLoader.LoadBundle(AssetBundleNames.Cards);
-			ApplicationStatic.AssetLoader.LoadBundle(AssetBundleNames.Prefabs);
+			ApplicationStatic.Application.AssetLoader.LoadBundle(AssetBundleNames.Cards);
+			ApplicationStatic.Application.AssetLoader.LoadBundle(AssetBundleNames.Prefabs);
 
-			if (ApplicationStatic.GameSeed != null)
+			if (ApplicationStatic.Application.GameSeed != null)
 			{
-				Seed = ApplicationStatic.GameSeed.Value;
+				Seed = ApplicationStatic.Application.GameSeed.Value;
 			}
 
 			UnityEngine.Debug.Log(String.Format("[GameScene] Starting new game (Seed: {0})", Seed));
@@ -92,8 +92,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 				ApplicationStatic.Application.EndGame();
 			}
 
-			ApplicationStatic.AssetLoader.UnloadBundle(AssetBundleNames.Cards);
-			ApplicationStatic.AssetLoader.UnloadBundle(AssetBundleNames.Prefabs);
+			ApplicationStatic.Application.AssetLoader.UnloadBundle(AssetBundleNames.Cards);
+			ApplicationStatic.Application.AssetLoader.UnloadBundle(AssetBundleNames.Prefabs);
 
 			Screen.orientation = ScreenOrientation.AutoRotation;
 		}

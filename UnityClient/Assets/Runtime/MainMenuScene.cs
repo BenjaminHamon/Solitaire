@@ -18,7 +18,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		{
 			if (Application.IsPlaying(gameObject))
 			{
-				ApplicationStatic.AssetLoader.LoadBundle(AssetBundleNames.Interface);
+				ApplicationStatic.Application.AssetLoader.LoadBundle(AssetBundleNames.Interface);
 			}
 
 			lastUpdateScreenHeight = Screen.height;
@@ -46,7 +46,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		{
 			if (Application.IsPlaying(gameObject))
 			{
-				ApplicationStatic.AssetLoader.UnloadBundle(AssetBundleNames.Interface);
+				ApplicationStatic.Application.AssetLoader.UnloadBundle(AssetBundleNames.Interface);
 			}
 		}
 
@@ -62,20 +62,20 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 			List<StyleSheet> styleSheetCollection = new List<StyleSheet>();
 
-			styleSheetCollection.Add(ApplicationStatic.AssetLoader.LoadByPath<StyleSheet>(AssetBundleNames.Interface, "Interface/Generic.uss"));
+			styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(AssetBundleNames.Interface, "Interface/Generic.uss"));
 
 			if (screenRatio > 1)
 			{
 				if (screenWidth > 1000)
 				{
-					styleSheetCollection.Add(ApplicationStatic.AssetLoader.LoadByPath<StyleSheet>(
+					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
 						AssetBundleNames.Interface, "Interface/LandscapeHighResolutionStyles.uss"));
 				}
 				else
 				{
-					styleSheetCollection.Add(ApplicationStatic.AssetLoader.LoadByPath<StyleSheet>(
+					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
 						AssetBundleNames.Interface, "Interface/GenericLowResolution.uss"));
-					styleSheetCollection.Add(ApplicationStatic.AssetLoader.LoadByPath<StyleSheet>(
+					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
 						AssetBundleNames.Interface, "Interface/LandscapeLowResolutionStyles.uss"));
 				}
 			}
@@ -83,14 +83,14 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			{
 				if (screenHeight > 1000)
 				{
-					styleSheetCollection.Add(ApplicationStatic.AssetLoader.LoadByPath<StyleSheet>(
+					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
 						AssetBundleNames.Interface, "Interface/PortraitHighResolutionStyles.uss"));
 				}
 				else
 				{
-					styleSheetCollection.Add(ApplicationStatic.AssetLoader.LoadByPath<StyleSheet>(
+					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
 						AssetBundleNames.Interface, "Interface/GenericLowResolution.uss"));
-					styleSheetCollection.Add(ApplicationStatic.AssetLoader.LoadByPath<StyleSheet>(
+					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
 						AssetBundleNames.Interface, "Interface/PortraitLowResolutionStyles.uss"));
 				}
 			}

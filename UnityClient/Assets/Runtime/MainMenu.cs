@@ -30,7 +30,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		public void Start()
 		{
-			ApplicationStatic.AssetLoader.LoadBundle(AssetBundleNames.Interface);
+			ApplicationStatic.Application.AssetLoader.LoadBundle(AssetBundleNames.Interface);
 
 			if (RandomSeedOnStart)
 			{
@@ -41,7 +41,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			seedInput.value = Seed.ToString();
 
 			Button lastSeedButton = UIDocument.rootVisualElement.Query<Button>("LastSeedButton");
-			lastSeedButton.SetEnabled(ApplicationStatic.GameSeed != null);
+			lastSeedButton.SetEnabled(ApplicationStatic.Application.GameSeed != null);
 		}
 
 		public void ApplyStyles(IEnumerable<StyleSheet> styleSheetCollection)
@@ -72,7 +72,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 				randomSeedButton.clicked += SetRandomSeed;
 
 				Button exitSeedButton = UIDocument.rootVisualElement.Query<Button>("ExitButton");
-				exitSeedButton.clicked += Exit; 
+				exitSeedButton.clicked += Exit;
 			}
 		}
 
@@ -107,7 +107,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		private void StartNewGame()
 		{
-			ApplicationStatic.GameSeed = Seed;
+			ApplicationStatic.Application.GameSeed = Seed;
 			SceneManager.LoadScene("GameScene");
 		}
 
@@ -143,7 +143,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		private void SetLastSeed()
 		{
-			Seed = ApplicationStatic.GameSeed.Value;
+			Seed = ApplicationStatic.Application.GameSeed.Value;
 
 			TextField seedInput = UIDocument.rootVisualElement.Query<TextField>("SeedInput");
 			seedInput.value = Seed.ToString();
@@ -157,7 +157,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		public void OnDestroy()
 		{
-			ApplicationStatic.AssetLoader.UnloadBundle(AssetBundleNames.Interface);
+			ApplicationStatic.Application.AssetLoader.UnloadBundle(AssetBundleNames.Interface);
 		}
 	}
 }

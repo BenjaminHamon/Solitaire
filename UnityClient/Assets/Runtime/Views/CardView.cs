@@ -29,10 +29,10 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 		public void Start()
 		{
 			string frontAssetPath = "Sprites/Cards/Card" + Model.Type + Model.Number + ".png";
-			frontSprite = ApplicationStatic.AssetLoader.LoadOrDefaultByPath<Sprite>(AssetBundleNames.Cards, frontAssetPath);
+			frontSprite = ApplicationStatic.Application.AssetLoader.LoadOrDefaultByPath<Sprite>(AssetBundleNames.Cards, frontAssetPath);
 
 			string backAssetPath = "Sprites/CardBacks/CardBackBlue1.png";
-			backSprite = ApplicationStatic.AssetLoader.LoadOrDefaultByPath<Sprite>(AssetBundleNames.Cards, backAssetPath);
+			backSprite = ApplicationStatic.Application.AssetLoader.LoadOrDefaultByPath<Sprite>(AssetBundleNames.Cards, backAssetPath);
 
 			UpdateVisiblity();
 
