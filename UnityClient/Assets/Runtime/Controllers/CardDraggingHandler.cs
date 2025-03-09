@@ -34,7 +34,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 
 			foreach (CardView cardView in allMovingCards)
 			{
-				// Disable interactivty for dragged cards to detect the card underneath on drop.
+				// Disable interactivity for dragged cards to detect the card underneath on drop.
 				cardView.DisableInteractivity();
 			}
 
