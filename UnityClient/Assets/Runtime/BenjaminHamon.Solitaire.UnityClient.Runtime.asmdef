@@ -2,8 +2,8 @@
     "name": "BenjaminHamon.Solitaire.UnityClient.Runtime",
     "rootNamespace": "BenjaminHamon.Solitaire.UnityClient.Runtime",
     "references": [
-        "GUID:a73d2872e8ecbe74a975fdce17773261",
-        "GUID:1deb769a9b4fc8a4baddce88084d78fb"
+        "BenjaminHamon.Solitaire.Model",
+        "BenjaminHamon.Solitaire.UnityExtensions.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

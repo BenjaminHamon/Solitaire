@@ -2,7 +2,9 @@
     "name": "BenjaminHamon.Solitaire.UnityClient.Editor",
     "rootNamespace": "BenjaminHamon.Solitaire.UnityClient.Editor",
     "references": [
-        "GUID:184fe15fc7ce990418121ba725e359db"
+        "BenjaminHamon.DevelopmentToolkit",
+        "BenjaminHamon.Solitaire.UnityClient.Runtime",
+        "BenjaminHamon.Solitaire.UnityExtensions.Editor"
     ],
     "includePlatforms": [
         "Editor"
