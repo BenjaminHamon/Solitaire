@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
-    public class GameScene : MonoBehaviour
-    {
+	public class GameScene : MonoBehaviour
+	{
 		[SerializeField]
 		private GameObject GamePrefab;
 		[SerializeField]

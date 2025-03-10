@@ -1,8 +1,8 @@
 using BenjaminHamon.Solitaire.Model;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
-using System.IO;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Serialization;
 using System;
-using UnityEngine;
+using System.IO;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
@@ -12,12 +12,35 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		public UnityApplication()
 		{
 			InternalApplication = new Model.Application();
-			AssetLoader = CreateAssetLoader();
+			Serializer = UnityApplicationFactory.CreateSerializer();
+			AssetLoader = UnityApplicationFactory.CreateAssetLoader();
 		}
 
 		private readonly Model.Application InternalApplication;
+		private readonly Serializer Serializer;
 		public AssetLoader<UnityEngine.Object> AssetLoader { get; }
+
+		public ApplicationVersion ApplicationVersion { get; private set; }
+
 		public int? GameSeed { get; set; }
+
+		public void LoadApplicationInformation()
+		{
+			ApplicationVersion = new ApplicationVersion() { Identifier = "Unknown" };
+
+			try
+			{
+				string applicationVersionFilePath
+					= Path.Combine(UnityEngine.Application.streamingAssetsPath, "ApplicationVersion" + Serializer.GetFileExtension());
+
+				ApplicationVersion = Serializer.DeserializeFromFile<ApplicationVersion>(applicationVersionFilePath);
+			}
+			catch (FileNotFoundException exception)
+			{
+				UnityEngine.Debug.LogError("Failed to load application version");
+				UnityEngine.Debug.LogException(exception);
+			}
+		}
 
 		public Game NewGame(GameConfiguration configuration, int seed)
 		{
@@ -27,39 +50,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		public void EndGame()
 		{
 			InternalApplication.EndGame();
-		}
-
-		private static AssetLoader<UnityEngine.Object> CreateAssetLoader()
-		{
-#if UNITY_EDITOR
-			bool UseAssetBundlesInEditor = false;
-
-			if (UnityEngine.Application.isEditor)
-			{
-				if (UseAssetBundlesInEditor)
-				{
-					string AssetBundlesPath = Path.Combine("..", "Artifacts", "AssetBundles", GetAssetBundlePlatform(UnityEngine.Application.platform));
-					return new AssetLoaderUsingBundles(AssetBundlesPath);
-				}
-
-				return new EditorAssetLoader();
-			}
-#endif
-
-			return new AssetLoaderUsingBundles(Path.Combine(UnityEngine.Application.streamingAssetsPath, "AssetBundles"));
-		}
-
-		private static string GetAssetBundlePlatform(RuntimePlatform platform)
-		{
-			switch (platform)
-			{
-				case RuntimePlatform.Android: return "Android";
-				case RuntimePlatform.LinuxEditor: return "Linux";
-				case RuntimePlatform.LinuxPlayer: return "Linux";
-				case RuntimePlatform.WindowsEditor: return "Windows";
-				case RuntimePlatform.WindowsPlayer: return "Windows";
-				default: throw new ArgumentException(String.Format("Unsupported platform: '{0}'", platform));
-			}
 		}
 	}
 }
