@@ -50,7 +50,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 			foreach (StyleSheet styleSheet in styleSheetCollection)
 			{
-				UnityEngine.Debug.LogFormat(this, "[MainMenu] Applying style sheet '{0}'", styleSheet);
+				UnityEngine.Debug.LogFormat(this, "[MainMenu] Applying style sheet '{0}'", styleSheet.name);
 				UIDocument.rootVisualElement.styleSheets.Add(styleSheet);
 			}
 		}
