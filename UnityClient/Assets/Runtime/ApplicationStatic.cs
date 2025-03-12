@@ -1,3 +1,5 @@
+using System;
+
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
 	/// <summary>Global static class to access the actual application from a Unity component.</summary>
@@ -5,6 +7,11 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
     {
 		static ApplicationStatic()
 		{
+			if (UnityEngine.Application.isPlaying == false)
+			{
+				throw new ApplicationException("ApplicationStatic should not be called in edit mode");
+			}
+
 			UnityEngine.Debug.LogFormat("[Application] Static initialization");
 
 			Application = new UnityApplication();

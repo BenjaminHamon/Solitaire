@@ -1,7 +1,7 @@
 using BenjaminHamon.Solitaire.Model;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Serialization;
-using System;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 using System.IO;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
@@ -14,11 +14,13 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			InternalApplication = new Model.Application();
 			Serializer = UnityApplicationFactory.CreateSerializer();
 			AssetLoader = UnityApplicationFactory.CreateAssetLoader();
+			ViewResources = UnityApplicationFactory.CreateApplicationViewResources();
 		}
 
 		private readonly Model.Application InternalApplication;
 		private readonly Serializer Serializer;
 		public AssetLoader<UnityEngine.Object> AssetLoader { get; }
+		public ApplicationViewResources ViewResources { get; }
 
 		public ApplicationVersion ApplicationVersion { get; private set; }
 

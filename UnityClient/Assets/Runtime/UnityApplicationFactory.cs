@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using UnityEngine;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
@@ -37,6 +38,11 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 #endif
 
 			return new AssetLoaderUsingBundles(Path.Combine(UnityEngine.Application.streamingAssetsPath, "AssetBundles"));
+		}
+
+		public static ApplicationViewResources CreateApplicationViewResources()
+		{
+			return new ApplicationViewResources();
 		}
 
 		private static string GetAssetBundlePlatform(RuntimePlatform platform)

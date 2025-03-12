@@ -1,0 +1,9 @@
+#VersionLabel {
+    align-self: flex-end;
+    margin: 0;
+    padding: 1% 2%;
+    margin-top: auto;
+    background-color: #333333;
+    color: #ffffff;
+    -unity-text-align: middle-right;
+}

@@ -1,0 +1,4 @@
+#Body {
+    font-size: 100%;
+    background-color: transparent;
+}

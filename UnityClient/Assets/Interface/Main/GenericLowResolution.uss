@@ -1,0 +1,7 @@
+#Body {
+    font-size: 150%;
+}
+
+Button {
+    border-radius: 5px;
+}
