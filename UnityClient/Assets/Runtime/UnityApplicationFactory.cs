@@ -1,3 +1,5 @@
+// cspell:words newtonsoft
+
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Serialization;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;

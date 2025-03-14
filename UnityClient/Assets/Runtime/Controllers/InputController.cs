@@ -1,3 +1,5 @@
+// cspell:words raycast
+
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 using BenjaminHamon.Solitaire.UnityExtensions.Runtime;
 using UnityEngine;

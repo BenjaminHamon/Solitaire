@@ -1,31 +1,56 @@
 # cspell:words pycache venv
 
 files:
-  - "**/*.cs"
-  - "**/*.json"
-  - "**/*.md"
-  - "**/*.py"
-  - "**/*.txt"
-  - "**/*.yaml"
+  - "*"
 
 ignorePaths:
   - "__pycache__/"
   - ".venv-automation/"
   - ".venv/"
   - "*.egg-info/"
+  - "*.log"
   - "**/__pycache__/"
   - "**/*.egg-info/"
   - "/Artifacts/"
   - "/Automation/Scripts/build/"
   - "/Automation/Scripts/dist/"
+  - "/UnityClient/*.csproj"
+  - "/UnityClient/**/*.meta"
   - "/UnityClient/Library/"
   - "/UnityClient/Logs/"
   - "/UnityClient/obj/"
+  - "/UnityClient/Packages/"
+  - "/UnityClient/ProjectSettings/"
   - "/UnityClient/Temp/"
+  - "/UnityClient/UIElementsSchema/"
   - "/UnityClient/UserSettings/"
+  - "/UnityClient/Assets/Sprites/License.txt"
 
 words:
   - benjaminhamon
   - bhamon
   - hamon
   - MonoBehaviour
+
+# cspell:disable
+overrides:
+  - filename: "*.asset"
+    words:
+      - blit
+  - filename: "{*.lighting,*.prefab,*.unity}"
+    words:
+      - atrous
+      - backface
+      - denoiser
+      - lightmap
+      - lightmaps
+      - mipmap
+      - msaa
+      - occludee
+      - occluder
+      - shadowmask
+      - skybox
+      - struct
+  - filename: "*.uxml"
+    words:
+      - uxml

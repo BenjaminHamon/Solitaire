@@ -34,16 +34,16 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 			string backAssetPath = "Sprites/CardBacks/CardBackBlue1.png";
 			backSprite = ApplicationStatic.Application.AssetLoader.LoadOrDefaultByPath<Sprite>(AssetBundleNames.Cards, backAssetPath);
 
-			UpdateVisiblity();
+			UpdateVisibility();
 
-			Model.VisiblityChanged += UpdateVisiblity;
+			Model.VisibilityChanged += UpdateVisibility;
 		}
 
 		public void OnEnable()
 		{
 			if (Model != null)
 			{
-				Model.VisiblityChanged += UpdateVisiblity;
+				Model.VisibilityChanged += UpdateVisibility;
 			}
 		}
 
@@ -51,11 +51,11 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 		{
 			if (Model != null)
 			{
-				Model.VisiblityChanged -= UpdateVisiblity;
+				Model.VisibilityChanged -= UpdateVisibility;
 			}
 		}
 
-		private void UpdateVisiblity()
+		private void UpdateVisibility()
 		{
 			renderer.sprite = Model.Visible ? frontSprite : backSprite;
 		}

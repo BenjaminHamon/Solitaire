@@ -1,3 +1,5 @@
+// cspell:words raycast
+
 using UnityEngine;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers

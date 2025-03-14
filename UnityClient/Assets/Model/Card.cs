@@ -17,7 +17,7 @@ namespace BenjaminHamon.Solitaire.Model
 
 		public CardPile Parent { get; set; }
 
-		public Action VisiblityChanged;
+		public Action VisibilityChanged;
 
 		private bool visibleField;
 		public bool Visible
@@ -29,7 +29,7 @@ namespace BenjaminHamon.Solitaire.Model
 			set
 			{
 				visibleField = value;
-				VisiblityChanged?.Invoke();
+				VisibilityChanged?.Invoke();
 			}
 		}
 

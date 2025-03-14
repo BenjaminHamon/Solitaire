@@ -1,3 +1,5 @@
+// cspell:words newtonsoft
+
 using Newtonsoft.Json;
 using System.IO;
 
