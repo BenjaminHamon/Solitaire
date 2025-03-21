@@ -5,15 +5,10 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 	[Serializable]
 	public class ApplicationVersion
     {
-		public ApplicationVersion()
-		{
-			RevisionDate = DateTime.MinValue.ToUniversalTime();
-		}
-
 		public string Identifier { get; set; }
 		public string Revision { get; set; }
 		public string RevisionShort { get; set; }
-		public DateTime RevisionDate { get; set; }
+		public DateTime? RevisionDate { get; set; }
 		public string Branch { get; set; }
 
 		public string FullIdentifier
