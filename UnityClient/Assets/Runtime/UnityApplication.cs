@@ -12,12 +12,14 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		public UnityApplication()
 		{
 			InternalApplication = new Model.Application();
+			FileLoader = UnityApplicationFactory.CreateFileLoader();
 			Serializer = UnityApplicationFactory.CreateSerializer();
 			AssetLoader = UnityApplicationFactory.CreateAssetLoader();
 			ViewResources = UnityApplicationFactory.CreateApplicationViewResources();
 		}
 
 		private readonly Model.Application InternalApplication;
+		private readonly FileLoader FileLoader;
 		private readonly Serializer Serializer;
 		public AssetLoader<UnityEngine.Object> AssetLoader { get; }
 		public ApplicationViewResources ViewResources { get; }
@@ -30,14 +32,15 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		{
 			ApplicationVersion = new ApplicationVersion() { Identifier = "Unknown" };
 
+			string applicationVersionFileName = "ApplicationVersion" + Serializer.GetFileExtension();
+			string applicationVersionFilePath = Path.Combine(UnityEngine.Application.streamingAssetsPath, applicationVersionFileName);
+
 			try
 			{
-				string applicationVersionFilePath
-					= Path.Combine(UnityEngine.Application.streamingAssetsPath, "ApplicationVersion" + Serializer.GetFileExtension());
-
-				ApplicationVersion = Serializer.DeserializeFromFile<ApplicationVersion>(applicationVersionFilePath);
+				string applicationVersionText = FileLoader.LoadTextFile(applicationVersionFilePath);
+				ApplicationVersion = Serializer.DeserializeFromString<ApplicationVersion>(applicationVersionText);
 			}
-			catch (FileNotFoundException exception)
+			catch (IOException exception)
 			{
 				UnityEngine.Debug.LogError("Failed to load application version");
 				UnityEngine.Debug.LogException(exception);

@@ -2,7 +2,6 @@ using BenjaminHamon.DevelopmentToolkit.Toolkit.Processes;
 using BenjaminHamon.DevelopmentToolkit.Toolkit.RevisionControl;
 using BenjaminHamon.Solitaire.UnityClient.Runtime;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Serialization;
-using System;
 using System.IO;
 using UnityEditor;
 
@@ -13,35 +12,18 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
     {
 		public UnityEditorApplication()
 		{
-			RevisionControlClient = new GitClient();
+			ApplicationInformation = new ApplicationInformationImplementation();
 			Serializer = UnityApplicationFactory.CreateSerializer();
 		}
 
-		private readonly RevisionControlClient RevisionControlClient;
+		private readonly ApplicationInformation ApplicationInformation;
 		private readonly Serializer Serializer;
-
-		public ApplicationVersion GetApplicationVersion()
-		{
-			ApplicationVersion applicationVersion = new ApplicationVersion() { Identifier = "Development" };
-
-			applicationVersion.Revision = RevisionControlClient.GenerateRevisionWithLocalChanges();
-			applicationVersion.RevisionShort = RevisionControlClient.ConvertRevisionToRevisionShort(applicationVersion.Revision);
-			applicationVersion.RevisionDate = DateTime.UtcNow;
-			applicationVersion.Branch = RevisionControlClient.GetCurrentBranch();
-
-			return applicationVersion;
-		}
-
-		public string GetApplicationVersionFilePath()
-		{
-			return Path.Combine(UnityEngine.Application.streamingAssetsPath, "ApplicationVersion" + Serializer.GetFileExtension());
-		}
 
 		public void WriteApplicationVersionToStreamingAssets()
 		{
 			try
 			{
-				ApplicationVersion applicationVersion = GetApplicationVersion();
+				ApplicationVersion applicationVersion = ApplicationInformation.GetApplicationVersionForDevelopment();
 				string applicationVersionFilePath = GetApplicationVersionFilePath();
 
 				Directory.CreateDirectory(Path.GetDirectoryName(applicationVersionFilePath));
@@ -65,6 +47,11 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 
 				AssetDatabase.Refresh();
 			}
+		}
+
+		private string GetApplicationVersionFilePath()
+		{
+			return Path.Combine(UnityEngine.Application.streamingAssetsPath, "ApplicationVersion" + Serializer.GetFileExtension());
 		}
 	}
 }

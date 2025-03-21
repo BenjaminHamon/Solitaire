@@ -24,16 +24,22 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 		private void UpdateVersionLabel()
 		{
 			Label versionLabel = UIDocument.rootVisualElement.Query<Label>("VersionLabel");
+			ApplicationVersion applicationVersion = ApplicationStatic.Application.ApplicationVersion;
 
-			versionLabel.text = ApplicationStatic.Application.ApplicationVersion.FullIdentifier;
+			versionLabel.text = applicationVersion.FullIdentifier;
 
-			if (ApplicationStatic.Application.ApplicationVersion.RevisionDate.Kind != DateTimeKind.Utc)
+			if (applicationVersion.RevisionDate != null)
 			{
-				throw new ApplicationException("RevisionDate should be an UTC datetime");
-			}
+				if (applicationVersion.RevisionDate?.Kind != DateTimeKind.Utc)
+				{
+					throw new ApplicationException("RevisionDate should be an UTC datetime");
+				}
 
-			versionLabel.text += ScreenExtensions.IsLandscape() ? Environment.NewLine : " - ";
-			versionLabel.text += ApplicationStatic.Application.ApplicationVersion.RevisionDate.ToString("dd-MMM-yyyy HH:mm UTC");
+				bool useMultiline = ScreenExtensions.IsLandscape() || (ScreenExtensions.GetRealWidth() < 400);
+
+				versionLabel.text += useMultiline ? Environment.NewLine : " - ";
+				versionLabel.text += applicationVersion.RevisionDate?.ToString("dd-MMM-yyyy HH:mm UTC");
+			}
 		}
 	}
 }

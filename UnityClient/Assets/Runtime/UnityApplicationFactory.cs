@@ -1,11 +1,11 @@
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Serialization;
-using Newtonsoft.Json.Converters;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.IO;
 using UnityEngine;
-using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
@@ -18,6 +18,19 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 			serializationImplementation.Formatting = Formatting.Indented;
 
 			return new JsonNetSerializer(serializationImplementation);
+		}
+
+		public static FileLoader CreateFileLoader()
+		{
+			switch (UnityEngine.Application.platform)
+			{
+				case RuntimePlatform.Android: return new FileLoaderUsingWebRequest();
+				case RuntimePlatform.LinuxEditor: return new FileLoaderUsingFileSystem();
+				case RuntimePlatform.LinuxPlayer: return new FileLoaderUsingFileSystem();
+				case RuntimePlatform.WindowsEditor: return new FileLoaderUsingFileSystem();
+				case RuntimePlatform.WindowsPlayer: return new FileLoaderUsingFileSystem();
+				default: throw new ArgumentException(String.Format("Unsupported platform: '{0}'", UnityEngine.Application.platform));
+			}
 		}
 
 		public static AssetLoader<UnityEngine.Object> CreateAssetLoader()

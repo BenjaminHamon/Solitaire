@@ -1,3 +1,4 @@
+using BenjaminHamon.Solitaire.UnityClient.Runtime;
 using System.Diagnostics;
 using System.IO;
 using UnityEditor;
@@ -39,7 +40,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Android");
 			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Android-Debug");
 
-			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			ApplicationInformation applicationInformation = new ApplicationInformationImplementation();
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder(applicationInformation, UnityApplicationFactory.CreateSerializer());
 			applicationBuilder.BuildApplication("Android", "Debug", assetBundleDirectory, outputDirectory);
 			Process.Start(outputDirectory);
 		}
@@ -50,7 +52,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Android");
 			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Android-Release");
 
-			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			ApplicationInformation applicationInformation = new ApplicationInformationImplementation();
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder(applicationInformation, UnityApplicationFactory.CreateSerializer());
 			applicationBuilder.BuildApplication("Android", "Release", assetBundleDirectory, outputDirectory);
 			Process.Start(outputDirectory);
 		}
@@ -61,7 +64,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Linux");
 			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Linux-Debug");
 
-			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			ApplicationInformation applicationInformation = new ApplicationInformationImplementation();
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder(applicationInformation, UnityApplicationFactory.CreateSerializer());
 			applicationBuilder.BuildApplication("Linux", "Debug", assetBundleDirectory, outputDirectory);
 			Process.Start(outputDirectory);
 		}
@@ -72,7 +76,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Linux");
 			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Linux-Release");
 
-			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			ApplicationInformation applicationInformation = new ApplicationInformationImplementation();
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder(applicationInformation, UnityApplicationFactory.CreateSerializer());
 			applicationBuilder.BuildApplication("Linux", "Release", assetBundleDirectory, outputDirectory);
 			Process.Start(outputDirectory);
 		}
@@ -83,7 +88,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Windows");
 			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Windows-Debug");
 
-			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			ApplicationInformation applicationInformation = new ApplicationInformationImplementation();
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder(applicationInformation, UnityApplicationFactory.CreateSerializer());
 			applicationBuilder.BuildApplication("Windows", "Debug", assetBundleDirectory, outputDirectory);
 			Process.Start(outputDirectory);
 		}
@@ -94,7 +100,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string assetBundleDirectory = Path.Combine("..", "Artifacts", "AssetBundles", "Windows");
 			string outputDirectory = Path.Combine("..", "Artifacts", "Applications", "Windows-Release");
 
-			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			ApplicationInformation applicationInformation = new ApplicationInformationImplementation();
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder(applicationInformation, UnityApplicationFactory.CreateSerializer());
 			applicationBuilder.BuildApplication("Windows", "Release", assetBundleDirectory, outputDirectory);
 			Process.Start(outputDirectory);
 		}

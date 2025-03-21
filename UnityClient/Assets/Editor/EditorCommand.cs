@@ -1,3 +1,4 @@
+using BenjaminHamon.Solitaire.UnityClient.Runtime;
 using System;
 using System.Collections.Generic;
 
@@ -40,7 +41,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			string assetBundleDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "assetBundleDirectory");
 			string outputDirectory = EditorCommandHelpers.ParseArgument<string>(arguments, "outputDirectory");
 
-			ApplicationBuilder applicationBuilder = new ApplicationBuilder();
+			ApplicationInformation applicationInformation = new ApplicationInformationImplementation();
+			ApplicationBuilder applicationBuilder = new ApplicationBuilder(applicationInformation, UnityApplicationFactory.CreateSerializer());
 			applicationBuilder.BuildApplication(platform, configuration, assetBundleDirectory, outputDirectory);
 		}
 	}
