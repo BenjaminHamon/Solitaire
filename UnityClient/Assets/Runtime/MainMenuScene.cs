@@ -1,9 +1,7 @@
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 using BenjaminHamon.Solitaire.UnityExtensions.Runtime;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
