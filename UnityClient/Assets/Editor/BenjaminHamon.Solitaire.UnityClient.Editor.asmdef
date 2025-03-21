@@ -2,7 +2,6 @@
     "name": "BenjaminHamon.Solitaire.UnityClient.Editor",
     "rootNamespace": "BenjaminHamon.Solitaire.UnityClient.Editor",
     "references": [
-        "BenjaminHamon.DevelopmentToolkit",
         "BenjaminHamon.Solitaire.UnityClient.Runtime",
         "BenjaminHamon.Solitaire.UnityExtensions.Editor"
     ],
@@ -11,8 +10,10 @@
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "BenjaminHamon.DevelopmentToolkit.Toolkit.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
