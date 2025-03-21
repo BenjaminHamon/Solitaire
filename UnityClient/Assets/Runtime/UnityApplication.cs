@@ -1,8 +1,8 @@
 using BenjaminHamon.Solitaire.Model;
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Serialization;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
 using System.IO;
-using System;
-using UnityEngine;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 {
@@ -12,12 +12,40 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		public UnityApplication()
 		{
 			InternalApplication = new Model.Application();
-			AssetLoader = CreateAssetLoader();
+			FileLoader = UnityApplicationFactory.CreateFileLoader();
+			Serializer = UnityApplicationFactory.CreateSerializer();
+			AssetLoader = UnityApplicationFactory.CreateAssetLoader();
+			ViewResources = UnityApplicationFactory.CreateApplicationViewResources();
 		}
 
 		private readonly Model.Application InternalApplication;
+		private readonly FileLoader FileLoader;
+		private readonly Serializer Serializer;
 		public AssetLoader<UnityEngine.Object> AssetLoader { get; }
+		public ApplicationViewResources ViewResources { get; }
+
+		public ApplicationVersion ApplicationVersion { get; private set; }
+
 		public int? GameSeed { get; set; }
+
+		public void LoadApplicationInformation()
+		{
+			ApplicationVersion = new ApplicationVersion() { Identifier = "Unknown" };
+
+			string applicationVersionFileName = "ApplicationVersion" + Serializer.GetFileExtension();
+			string applicationVersionFilePath = Path.Combine(UnityEngine.Application.streamingAssetsPath, applicationVersionFileName);
+
+			try
+			{
+				string applicationVersionText = FileLoader.LoadTextFile(applicationVersionFilePath);
+				ApplicationVersion = Serializer.DeserializeFromString<ApplicationVersion>(applicationVersionText);
+			}
+			catch (IOException exception)
+			{
+				UnityEngine.Debug.LogError("Failed to load application version");
+				UnityEngine.Debug.LogException(exception);
+			}
+		}
 
 		public Game NewGame(GameConfiguration configuration, int seed)
 		{
@@ -27,39 +55,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 		public void EndGame()
 		{
 			InternalApplication.EndGame();
-		}
-
-		private static AssetLoader<UnityEngine.Object> CreateAssetLoader()
-		{
-#if UNITY_EDITOR
-			bool UseAssetBundlesInEditor = false;
-
-			if (UnityEngine.Application.isEditor)
-			{
-				if (UseAssetBundlesInEditor)
-				{
-					string AssetBundlesPath = Path.Combine("..", "Artifacts", "AssetBundles", GetAssetBundlePlatform(UnityEngine.Application.platform));
-					return new AssetLoaderUsingBundles(AssetBundlesPath);
-				}
-
-				return new EditorAssetLoader();
-			}
-#endif
-
-			return new AssetLoaderUsingBundles(Path.Combine(UnityEngine.Application.streamingAssetsPath, "AssetBundles"));
-		}
-
-		private static string GetAssetBundlePlatform(RuntimePlatform platform)
-		{
-			switch (platform)
-			{
-				case RuntimePlatform.Android: return "Android";
-				case RuntimePlatform.LinuxEditor: return "Linux";
-				case RuntimePlatform.LinuxPlayer: return "Linux";
-				case RuntimePlatform.WindowsEditor: return "Windows";
-				case RuntimePlatform.WindowsPlayer: return "Windows";
-				default: throw new ArgumentException(String.Format("Unsupported platform: '{0}'", platform));
-			}
 		}
 	}
 }

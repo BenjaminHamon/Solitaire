@@ -1,3 +1,5 @@
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Serialization;
+using BenjaminHamon.Solitaire.UnityClient.Runtime;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +12,15 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 {
 	public class ApplicationBuilder
 	{
+		public ApplicationBuilder(ApplicationInformation applicationInformation, Serializer serializer)
+		{
+			this.ApplicationInformation = applicationInformation;
+			this.Serializer = serializer;
+		}
+
+		private readonly ApplicationInformation ApplicationInformation;
+		private readonly Serializer Serializer;
+
 		public void BuildApplication(string platform, string configuration, string assetBundleDirectory, string applicationDirectory)
 		{
 			BuildTargetGroup unityTargetGroup = ConvertUnityEnum.ConvertGenericPlatformToUnityBuildTargetGroup(platform);
@@ -18,7 +29,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 			UnityEngine.Debug.LogFormat("[ApplicationBuilder] Building application for platform '{0}' with configuration '{1}'", platform, configuration);
 
 			BuildOptions options = GetOptions(configuration);
-			string packagePath = GetPackagePath(unityTarget, applicationDirectory, "BenjaminHamon.Solitaire");
+			string packagePath = GetPackagePath(unityTarget, applicationDirectory, ApplicationInformation.GetApplicationIdentifier());
 			List<string> sceneCollection = new List<string>() { "Assets/MenuScene.unity", "Assets/GameScene.unity" };
 
 			BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
@@ -38,6 +49,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 				editorContext.Apply();
 
 				ClearStreamingAssets();
+				WriteApplicationVersionToStreamingAssets();
 				CopyAssetBundlesToStreamingAssets(assetBundleDirectory);
 				UnityEngine.Debug.LogFormat("[ApplicationBuilder] Building player (OutputDirectory: '{0}')", applicationDirectory);
 				BuildReport buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -63,9 +75,21 @@ namespace BenjaminHamon.Solitaire.UnityClient.Editor
 				File.Delete(UnityEngine.Application.streamingAssetsPath + ".meta");
 		}
 
+		public void WriteApplicationVersionToStreamingAssets()
+		{
+			ApplicationVersion applicationVersion = ApplicationInformation.GetApplicationVersionForDevelopment();
+			string applicationVersionFileName = "ApplicationVersion" + Serializer.GetFileExtension();
+			string applicationVersionFilePath = Path.GetFullPath(Path.Combine(UnityEngine.Application.streamingAssetsPath, applicationVersionFileName));
+
+			UnityEngine.Debug.LogFormat("[ApplicationBuilder] Writing application version file ('{0}')", applicationVersionFilePath);
+
+			Directory.CreateDirectory(Path.GetDirectoryName(applicationVersionFilePath));
+			Serializer.SerializeToFile(applicationVersionFilePath, applicationVersion);
+		}
+
 		private void CopyAssetBundlesToStreamingAssets(string sourceDirectory)
 		{
-			string outputDirectory = Path.Combine(UnityEngine.Application.streamingAssetsPath, "AssetBundles");
+			string outputDirectory = Path.GetFullPath(Path.Combine(UnityEngine.Application.streamingAssetsPath, "AssetBundles"));
 
 			UnityEngine.Debug.LogFormat("[ApplicationBuilder] Copying asset bundles ('{0}' => '{1}')", sourceDirectory, outputDirectory);
 

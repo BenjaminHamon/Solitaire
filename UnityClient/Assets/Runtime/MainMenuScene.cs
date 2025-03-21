@@ -1,4 +1,6 @@
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
+using BenjaminHamon.Solitaire.UnityClient.Runtime.Views;
+using BenjaminHamon.Solitaire.UnityExtensions.Runtime;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,7 +11,9 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
     public class MainMenuScene : MonoBehaviour
 	{
 		[SerializeField]
-		private MainMenu MainMenuView;
+		private MainMenu MainMenu;
+		[SerializeField]
+		private VersionInformationView VersionInformation;
 
 		private float lastUpdateScreenHeight = 0;
 		private float lastUpdateScreenWidth = 0;
@@ -52,50 +56,20 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		private void ApplyStyles()
 		{
-			// Use greatly reduced size for mobiles since the screen values seem way too big for what is actually rendered
-			float screenHeight = UnityEngine.Application.isMobilePlatform ? Screen.height / 5 : Screen.height;
-			float screenWidth = UnityEngine.Application.isMobilePlatform ? Screen.width / 5 : Screen.width;
-			float screenRatio = screenWidth / screenHeight;
+			AssetLoader<UnityEngine.Object> assetLoader
+				= Application.IsPlaying(gameObject) ? ApplicationStatic.Application.AssetLoader : UnityApplicationFactory.CreateAssetLoader();
 
-			UnityEngine.Debug.LogFormat(this, "[MainMenuScene] Applying for screen {0}x{1} (Actual: {2}x{3})",
+			ApplicationViewResources applicationViewResources
+				= Application.IsPlaying(gameObject) ? ApplicationStatic.Application.ViewResources : UnityApplicationFactory.CreateApplicationViewResources();
+
+			int screenHeight = ScreenExtensions.GetRealHeight();
+			int screenWidth = ScreenExtensions.GetRealWidth();
+
+			UnityEngine.Debug.LogFormat(this, "[MainMenuScene] Applying styles for screen {0}x{1} (Actual: {2}x{3})",
 				screenWidth, screenHeight, Screen.width, Screen.height);
 
-			List<StyleSheet> styleSheetCollection = new List<StyleSheet>();
-
-			styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(AssetBundleNames.Interface, "Interface/Generic.uss"));
-
-			if (screenRatio > 1)
-			{
-				if (screenWidth > 1000)
-				{
-					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
-						AssetBundleNames.Interface, "Interface/LandscapeHighResolutionStyles.uss"));
-				}
-				else
-				{
-					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
-						AssetBundleNames.Interface, "Interface/GenericLowResolution.uss"));
-					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
-						AssetBundleNames.Interface, "Interface/LandscapeLowResolutionStyles.uss"));
-				}
-			}
-			else
-			{
-				if (screenHeight > 1000)
-				{
-					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
-						AssetBundleNames.Interface, "Interface/PortraitHighResolutionStyles.uss"));
-				}
-				else
-				{
-					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
-						AssetBundleNames.Interface, "Interface/GenericLowResolution.uss"));
-					styleSheetCollection.Add(ApplicationStatic.Application.AssetLoader.LoadByPath<StyleSheet>(
-						AssetBundleNames.Interface, "Interface/PortraitLowResolutionStyles.uss"));
-				}
-			}
-
-			MainMenuView.ApplyStyles(styleSheetCollection);
+			MainMenu.ApplyStyles(applicationViewResources.GetStyleCollectionForMain(assetLoader));
+			VersionInformation.ApplyStyles(applicationViewResources.GetStyleCollectionForVersionInformation(assetLoader));
 		}
 	}
 }

@@ -1,4 +1,5 @@
 using BenjaminHamon.Solitaire.UnityClient.Runtime.Content;
+using BenjaminHamon.Solitaire.UnityExtensions.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -46,13 +47,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime
 
 		public void ApplyStyles(IEnumerable<StyleSheet> styleSheetCollection)
 		{
-			UIDocument.rootVisualElement.styleSheets.Clear();
-
-			foreach (StyleSheet styleSheet in styleSheetCollection)
-			{
-				UnityEngine.Debug.LogFormat(this, "[MainMenu] Applying style sheet '{0}'", styleSheet.name);
-				UIDocument.rootVisualElement.styleSheets.Add(styleSheet);
-			}
+			UIDocument.ApplyStyles(styleSheetCollection);
 		}
 
 		public void OnEnable()
