@@ -50,32 +50,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 			}
 
 			return false;
-
-		}
-
-		private bool TryStartDraggingCard()
-		{
-			if (DraggingHandler != null)
-				return false;
-
-			if (MouseTracker.IsDragging())
-			{
-				CardView card = MouseTracker.CurrentMouseDown.Collider.GetComponent<CardView>();
-
-				if ((card != null) && (card.IsVisible == true))
-				{
-					GameObject draggingHandlerGameObject = Instantiate(DraggingHandlerPrefab, transform);
-					draggingHandlerGameObject.name = "DraggingHandler";
-
-					DraggingHandler = draggingHandlerGameObject.GetComponent<CardDraggingHandler>();
-					DraggingHandler.Camera = Camera;
-					DraggingHandler.Card = card;
-
-					return true;
-				}
-			}
-
-			return false;
 		}
 
 		private bool TryRevealCard()
@@ -102,6 +76,31 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 				if (card != null)
 				{
 					return Game.Foundation.TryPush(card);
+				}
+			}
+
+			return false;
+		}
+
+		private bool TryStartDraggingCard()
+		{
+			if (DraggingHandler != null)
+				return false;
+
+			if (MouseTracker.IsDragging())
+			{
+				CardView card = MouseTracker.CurrentMouseDown.Collider.GetComponent<CardView>();
+
+				if ((card != null) && (card.IsVisible == true))
+				{
+					GameObject draggingHandlerGameObject = Instantiate(DraggingHandlerPrefab, transform);
+					draggingHandlerGameObject.name = "DraggingHandler";
+
+					DraggingHandler = draggingHandlerGameObject.GetComponent<CardDraggingHandler>();
+					DraggingHandler.Camera = Camera;
+					DraggingHandler.Card = card;
+
+					return true;
 				}
 			}
 
