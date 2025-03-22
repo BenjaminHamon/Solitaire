@@ -27,12 +27,20 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 		{
 			MouseTracker.UpdateBefore();
 
-			TryDrawOrResetStock();
-			TryRevealCard();
-			TryPushCardToFoundation();
-			TryStartDraggingCard();
+			bool performedGameChange
+				= TryDrawOrResetStock()
+				|| TryRevealCard()
+				|| TryPushCardToFoundation();
+
+			_ = performedGameChange
+				|| TryStartDraggingCard();
 
 			MouseTracker.UpdateAfter();
+
+			if (performedGameChange)
+			{
+				MouseTracker.Clear();
+			}
 		}
 
 		private bool TryDrawOrResetStock()

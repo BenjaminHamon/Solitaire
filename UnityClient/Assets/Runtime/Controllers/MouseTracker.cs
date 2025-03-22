@@ -74,6 +74,18 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 			}
 		}
 
+		public void Clear()
+		{
+			LastMouseDownEvent = null;
+			LastMouseDown = null;
+			LastMouseUpEvent = null;
+			LastMouseUp = null;
+			CurrentMouseDownEvent = null;
+			CurrentMouseDown = null;
+			CurrentMouseUpEvent = null;
+			CurrentMouseUp = null;
+		}
+
 		public bool IsClick()
 		{
 			return (CurrentMouseUpEvent != null) && (CurrentMouseUpEvent.Collider != null);
