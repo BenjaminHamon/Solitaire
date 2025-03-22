@@ -1,6 +1,7 @@
 using BenjaminHamon.Solitaire.Model;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 {
@@ -13,11 +14,17 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 			set { ModelAsObject = value; }
 		}
 
+		[SerializeField]
+		private Sprite SelectionSprite;
+
 		public override void SetUp(CardViewResolver cardViewResolver)
 		{
 			base.SetUp(cardViewResolver);
 
-			cardCollection.FirstOrDefault()?.EnableInteractivity();
+			foreach (CardView card in cardCollection)
+			{
+				card.EnableInteractivity();
+			}
 		}
 
 		/// <summary>Enumerate the cards under the specified card, including the specified card itself.</summary>
@@ -27,13 +34,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 			{
 				yield return cardCollection.Single(x => x.Model == card);
 			}
-		}
-
-		protected override void HandleCardPopped(Card poppedCard)
-		{
-			base.HandleCardPopped(poppedCard);
-
-			cardCollection.FirstOrDefault()?.EnableInteractivity();
 		}
 	}
 }

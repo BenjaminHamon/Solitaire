@@ -16,6 +16,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 		[SerializeField]
 		private GameObject CardPilePrefab;
 
+		private List<FoundationCardPileView> PileCollection = new List<FoundationCardPileView>();
+
 		public void SetUp(CardViewResolver cardViewResolver)
 		{
 			int pileIndex = 0;
@@ -32,7 +34,17 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 			}
 		}
 
-		private List<FoundationCardPileView> PileCollection = new List<FoundationCardPileView>();
+		private void AddCardPile(FoundationCardPile foundationCardPile, int pileIndex)
+		{
+			GameObject newGameObject = Instantiate(CardPilePrefab);
+			newGameObject.name = String.Format("FoundationCardPile {0}", pileIndex + 1);
+			newGameObject.transform.SetParent(transform);
+
+			FoundationCardPileView foundationCardPileView = newGameObject.GetComponent<FoundationCardPileView>();
+			foundationCardPileView.Model = foundationCardPile;
+
+			PileCollection.Add(foundationCardPileView);
+		}
 
 		public IEnumerable<CardView> EnumerateCards()
 		{
@@ -48,18 +60,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 		public bool TryPush(CardView card)
 		{
 			return Model.TryPush(card.Model);
-		}
-
-		public void AddCardPile(FoundationCardPile foundationCardPile, int pileIndex)
-		{
-			GameObject newGameObject = Instantiate(CardPilePrefab);
-			newGameObject.name = String.Format("FoundationCardPile {0}", pileIndex + 1);
-			newGameObject.transform.SetParent(transform);
-
-			FoundationCardPileView foundationCardPileView = newGameObject.GetComponent<FoundationCardPileView>();
-			foundationCardPileView.Model = foundationCardPile;
-
-			PileCollection.Add(foundationCardPileView);
 		}
 	}
 }

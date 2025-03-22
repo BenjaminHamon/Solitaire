@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BenjaminHamon.Solitaire.Model
 {
@@ -17,6 +19,55 @@ namespace BenjaminHamon.Solitaire.Model
 		public IEnumerable<TableauCardPile> EnumeratePiles()
 		{
 			return pileCollection.AsReadOnly();
+		}
+
+		public bool TryMoveCardPile(TableauCardPile fromCardPile, TableauCardPile toCardPile)
+		{
+			List<Card> allCardsToMove = null;
+
+			foreach (Card card in fromCardPile.EnumerateCards())
+			{
+				if (card.Visible == false)
+					break;
+
+				if (toCardPile.CanPush(card))
+				{
+					allCardsToMove = fromCardPile.EnumerateCardsFrom(card).ToList();
+					break;
+				}
+			}
+
+			if (allCardsToMove != null)
+			{
+				foreach (Card cardToMove in allCardsToMove.Reverse<Card>())
+				{
+					if (cardToMove.Parent.CanPop() == false)
+					{
+						throw new InvalidOperationException("Card to move cannot be popped");
+					}
+
+					Card poppedCard = fromCardPile.Pop();
+
+					if (poppedCard != cardToMove)
+					{
+						throw new InvalidOperationException("Popped card is not as expected");
+					}
+				}
+
+				foreach (Card cardToMove in allCardsToMove)
+				{
+					if (toCardPile.CanPush(cardToMove) == false)
+					{
+						throw new InvalidOperationException("Card to move cannot be pushed");
+					}
+
+					toCardPile.Push(cardToMove);
+				}
+
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

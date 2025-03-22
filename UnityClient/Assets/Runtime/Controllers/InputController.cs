@@ -12,11 +12,15 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 		private Camera Camera;
 		[SerializeField]
 		private GameObject DraggingHandlerPrefab;
+		[SerializeField]
+		private GameObject TableauCardPileSelectionPrefab;
 
 		public GameView Game;
 
 		private readonly MouseTracker MouseTracker = new MouseTracker();
 		private CardDraggingHandler DraggingHandler;
+		private TableauCardPileView TableauCardPileSelection;
+		private GameObject TableauCardPileSelectionGameObject;
 
 		private void Start()
 		{
@@ -30,10 +34,12 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 			bool performedGameChange
 				= TryDrawOrResetStock()
 				|| TryRevealCard()
-				|| TryPushCardToFoundation();
+				|| TryPushCardToFoundation()
+				|| TryMoveTableauCardPile();
 
 			_ = performedGameChange
-				|| TryStartDraggingCard();
+				|| TryStartDraggingCard()
+				|| TrySelectTableauCardFile();
 
 			MouseTracker.UpdateAfter();
 
@@ -83,7 +89,42 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 
 				if ((card != null) && (card.Parent.Peek() == card))
 				{
-					return Game.Foundation.TryPush(card);
+					bool result = Game.Foundation.TryPush(card);
+
+					if (result)
+					{
+						ClearSelection();
+					}
+
+					return result;
+				}
+			}
+
+			return false;
+		}
+
+		private bool TryMoveTableauCardPile()
+		{
+			if (TableauCardPileSelection == null)
+				return false;
+
+			if (MouseTracker.IsClick())
+			{
+				TableauCardPileView targetTableauCardPile = MouseTracker.CurrentMouseUpEvent.Collider.GetComponentInParent<TableauCardPileView>();
+
+				if (targetTableauCardPile != null)
+				{
+					if (TableauCardPileSelection != targetTableauCardPile)
+					{
+						bool result = Game.Tableau.TryMoveCardPile(TableauCardPileSelection, targetTableauCardPile);
+
+						if (result)
+						{
+							ClearSelection();
+						}
+
+						return result;
+					}
 				}
 			}
 
@@ -108,11 +149,66 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 					DraggingHandler.Camera = Camera;
 					DraggingHandler.Card = card;
 
+					ClearSelection();
+
 					return true;
 				}
 			}
 
 			return false;
+		}
+
+		private bool TrySelectTableauCardFile()
+		{
+			if (MouseTracker.CurrentMouseUpEvent != null)
+			{
+				if (MouseTracker.CurrentMouseUpEvent.Collider != null)
+				{
+					CardView card = MouseTracker.CurrentMouseUpEvent.Collider.GetComponent<CardView>();
+
+					if (card != null)
+					{
+						if (card.Parent is TableauCardPileView tableauCardPile)
+						{
+							if (TableauCardPileSelection != tableauCardPile)
+							{
+								ClearSelection();
+
+								GameObject newSelectionObject = Instantiate(TableauCardPileSelectionPrefab, transform);
+								newSelectionObject.name = "Selection";
+								newSelectionObject.transform.position = card.Parent.transform.position + new Vector3(0, 0, 1);
+
+								int cardCount = card.Parent.CardCount;
+								Rect cardSpriteRectangle = card.GetComponent<SpriteRenderer>().sprite.rect;
+								SpriteRenderer selectionSprite = newSelectionObject.GetComponent<SpriteRenderer>();
+
+								// (width + border, height + card offset * card offset height + border) / scaling factor between rect and size
+								selectionSprite.size = new Vector2(cardSpriteRectangle.width + 20, cardSpriteRectangle.height + (cardCount - 1) * 50 + 20) / 100;
+
+								TableauCardPileSelection = tableauCardPile;
+								TableauCardPileSelectionGameObject = newSelectionObject;
+
+								return true;
+							}
+						}
+					}
+				}
+
+				ClearSelection();
+			}
+
+			return false;
+		}
+
+		private void ClearSelection()
+		{
+			if (TableauCardPileSelection != null)
+			{
+				Destroy(TableauCardPileSelectionGameObject);
+			}
+
+			TableauCardPileSelection = null;
+			TableauCardPileSelectionGameObject = null;
 		}
 	}
 }

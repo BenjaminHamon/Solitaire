@@ -16,6 +16,9 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 		}
 
 		protected CardViewResolver cardViewResolver;
+		protected Stack<CardView> cardCollection = new Stack<CardView>();
+
+		public int CardCount { get { return cardCollection.Count; } }
 
 		public virtual void SetUp(CardViewResolver cardViewResolver)
 		{
@@ -28,8 +31,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 				UpdateCardTransformAfterPush(cardView);
 			}
 		}
-
-		protected Stack<CardView> cardCollection = new Stack<CardView>();
 
 		public IEnumerable<CardView> EnumerateCards()
 		{
