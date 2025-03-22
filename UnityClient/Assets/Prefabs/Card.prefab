@@ -55,7 +55,6 @@ MonoBehaviour:
   collider: {fileID: 6159816}
   frontSprite: {fileID: 0}
   backSprite: {fileID: 0}
-  Game: {fileID: 0}
   Parent: {fileID: 0}
 --- !u!114 &11487848
 MonoBehaviour:
