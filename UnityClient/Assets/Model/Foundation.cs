@@ -41,15 +41,22 @@ namespace BenjaminHamon.Solitaire.Model
 
 		public bool TryPush(Card card)
 		{
+			if (card.Parent is FoundationCardPile)
+				return false;
+
+			if (card.Parent.CanPop() == false)
+				return false;
+
+			if (card.Parent.Peek() != card)
+			{
+				throw new InvalidOperationException("Card is not its pile top card");
+			}
+
 			foreach (FoundationCardPile foundationCardPile in pileCollection)
 			{
 				if (foundationCardPile.CanPush(card))
 				{
-					if (card.Parent != null)
-					{
-						card.Parent.Pop();
-					}
-
+					card.Parent.Pop();
 					foundationCardPile.Push(card);
 
 					return true;

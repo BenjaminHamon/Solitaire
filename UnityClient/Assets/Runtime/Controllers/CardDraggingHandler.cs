@@ -94,26 +94,35 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 			Destroy(gameObject);
 		}
 
-		private bool TryPush(CardPileView cardPileView, IEnumerable<CardView> allMovingCards)
+		private bool TryPush(CardPileView toCardPile, IEnumerable<CardView> allMovingCards)
 		{
-			if (cardPileView.CanPush(Card))
+			if (toCardPile.CanPush(Card))
 			{
-				if (Card.Parent != null)
-				{
-					foreach (CardView cardToPop in allMovingCards.Reverse())
-					{
-						if (cardToPop.Parent.Peek() != cardToPop)
-						{
-							throw new InvalidOperationException("Parent last card is not as expected");
-						}
+				CardPileView fromCardPile = Card.Parent;
 
-						cardToPop.Parent.Pop();
+				foreach (CardView cardToMove in allMovingCards.Reverse())
+				{
+					if (fromCardPile.Peek() != cardToMove)
+					{
+						throw new InvalidOperationException("Card to move is not its pile top card");
 					}
+
+					if (fromCardPile.CanPop() == false)
+					{
+						throw new InvalidOperationException("Card to move cannot be popped");
+					}
+
+					fromCardPile.Pop();
 				}
 
-				foreach (CardView cardToPush in allMovingCards)
+				foreach (CardView cardToMove in allMovingCards)
 				{
-					cardPileView.Push(cardToPush);
+					if (toCardPile.CanPush(cardToMove) == false)
+					{
+						throw new InvalidOperationException("Card to move cannot be popped");
+					}
+
+					toCardPile.Push(cardToMove);
 				}
 
 				return true;
@@ -124,15 +133,12 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 
 		private void ResetCards()
 		{
-			if (Card.Parent != null)
+			foreach (CardView child in allMovingCards)
 			{
-				foreach (CardView child in allMovingCards)
-				{
-					child.transform.SetParent(Card.Parent.transform, false);
-				}
-
-				Card.Parent.ResetDepth();
+				child.transform.SetParent(Card.Parent.transform, false);
 			}
+
+			Card.Parent.ResetDepth();
 		}
 	}
 }

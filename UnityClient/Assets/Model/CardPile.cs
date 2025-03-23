@@ -4,7 +4,8 @@ using System.Linq;
 
 namespace BenjaminHamon.Solitaire.Model
 {
-	public class CardPile
+	/// <summary>Base class for all card piles.</summary>
+	public abstract class CardPile
 	{
 		protected Stack<Card> cardCollection = new Stack<Card>();
 
@@ -21,10 +22,7 @@ namespace BenjaminHamon.Solitaire.Model
 			return cardCollection.FirstOrDefault();
 		}
 
-		public virtual bool CanPush(Card card)
-		{
-			return false;
-		}
+		public abstract bool CanPush(Card card);
 
 		public virtual void Push(Card card)
 		{
@@ -34,6 +32,8 @@ namespace BenjaminHamon.Solitaire.Model
 
 			CardPushed?.Invoke(card);
 		}
+
+		public abstract bool CanPop();
 
 		public Card Pop()
 		{

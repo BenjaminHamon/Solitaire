@@ -11,14 +11,9 @@ namespace BenjaminHamon.Solitaire.Model
 		public StockCardPile StockCardPile { get; } = new StockCardPile();
 		public WasteCardPile WasteCardPile { get; } = new WasteCardPile();
 
-		public void PushToStock(Card card)
-		{
-			StockCardPile.Push(card);
-		}
-
 		public bool CanDraw()
 		{
-			return StockCardPile.Peek() != null;
+			return StockCardPile.CanPop();
 		}
 
 		public Card Draw()

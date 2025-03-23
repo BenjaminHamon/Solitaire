@@ -111,6 +111,11 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 			pushedCardView.transform.SetParent(transform, false);
 		}
 
+		public bool CanPop()
+		{
+			return Model.CanPop();
+		}
+
 		public void Pop()
 		{
 			Model.Pop();

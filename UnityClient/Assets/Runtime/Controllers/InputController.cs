@@ -81,7 +81,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 			{
 				CardView card = MouseTracker.CurrentMouseUpEvent.Collider.GetComponent<CardView>();
 
-				if (card != null)
+				if ((card != null) && (card.Parent.Peek() == card))
 				{
 					return Game.Foundation.TryPush(card);
 				}
@@ -99,7 +99,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 			{
 				CardView card = MouseTracker.CurrentMouseDown.Collider.GetComponent<CardView>();
 
-				if ((card != null) && (card.IsVisible == true))
+				if ((card != null) && card.IsVisible)
 				{
 					GameObject draggingHandlerGameObject = Instantiate(DraggingHandlerPrefab, transform);
 					draggingHandlerGameObject.name = "DraggingHandler";

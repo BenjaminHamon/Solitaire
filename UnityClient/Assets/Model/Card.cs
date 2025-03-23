@@ -35,7 +35,7 @@ namespace BenjaminHamon.Solitaire.Model
 
 		public bool TryReveal()
 		{
-			if (Visible == true)
+			if (Visible)
 				return false;
 
 			if (Parent != null)

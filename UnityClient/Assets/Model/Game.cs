@@ -4,6 +4,12 @@ using System.Linq;
 
 namespace BenjaminHamon.Solitaire.Model
 {
+	// Some notes about the implementation of the game, its card piles and its cards.
+	//
+	// The responsibility of moving cards, meaning popping and pushing,
+	// is a responsibility of the main game components (foundation, stock and waste, tableau), not the card piles.
+	// This operation implies a pop then a push, hence the card pile's pop method should expect the card's parent to be null.
+
     public class Game
     {
 		public Game(GameConfiguration configuration, Random random)
@@ -99,7 +105,7 @@ namespace BenjaminHamon.Solitaire.Model
 
 			foreach (Card card in deckAsStack)
 			{
-				StockAndWaste.PushToStock(card);
+				StockAndWaste.StockCardPile.Push(card);
 			}
 		}
 
