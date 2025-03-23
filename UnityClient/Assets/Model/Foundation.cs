@@ -11,9 +11,9 @@ namespace BenjaminHamon.Solitaire.Model
 
 		private List<FoundationCardPile> pileCollection = new List<FoundationCardPile>();
 
-		public FoundationCardPile AddCardPile(int cardMaxNumber)
+		public FoundationCardPile AddCardPile(int cardMinNumber, int cardMaxNumber)
 		{
-			FoundationCardPile foundationPile = new FoundationCardPile(cardMaxNumber);
+			FoundationCardPile foundationPile = new FoundationCardPile(cardMinNumber, cardMaxNumber);
 			pileCollection.Add(foundationPile);
 			return foundationPile;
 		}

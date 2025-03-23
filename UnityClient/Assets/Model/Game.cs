@@ -54,7 +54,7 @@ namespace BenjaminHamon.Solitaire.Model
 
 			foreach (CardType cardType in configuration.CardTypes)
 			{
-				for (int cardNumber = 1; cardNumber <= configuration.CardMaxNumber; cardNumber++)
+				for (int cardNumber = configuration.CardMinNumber; cardNumber <= configuration.CardMaxNumber; cardNumber++)
 				{
 					Card newCard = new Card(numberInDeck, cardType, cardNumber);
 					cardDeck.Add(newCard);
@@ -77,7 +77,7 @@ namespace BenjaminHamon.Solitaire.Model
 
 			for (int foundationPileIndex = 0; foundationPileIndex < configuration.CardTypes.Count; foundationPileIndex++)
 			{
-				Foundation.AddCardPile(configuration.CardMaxNumber);
+				Foundation.AddCardPile(configuration.CardMinNumber, configuration.CardMaxNumber);
 			}
 
 			foreach (int pileCardSize in configuration.Tableau)

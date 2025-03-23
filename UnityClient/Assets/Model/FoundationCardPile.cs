@@ -5,11 +5,13 @@ namespace BenjaminHamon.Solitaire.Model
 {
 	public class FoundationCardPile : CardPile
 	{
-		public FoundationCardPile(int cardMaxNumber)
+		public FoundationCardPile(int cardMinNumber, int cardMaxNumber)
 		{
+			this.cardMinNumber = cardMinNumber;
 			this.cardMaxNumber = cardMaxNumber;
 		}
 
+		private readonly int cardMinNumber;
 		private readonly int cardMaxNumber;
 
 		public event Action Completed;
@@ -31,7 +33,7 @@ namespace BenjaminHamon.Solitaire.Model
 			if (parentTypeIsAsExpected && cardPositionInPileIsAsExpected)
 			{
 				Card topCard = cardCollection.FirstOrDefault();
-				bool canPushAsFirstCard = (topCard == null) && (card.Number == 1);
+				bool canPushAsFirstCard = (topCard == null) && (card.Number == cardMinNumber);
 				bool canPushAsNextCard = (topCard != null) && (topCard.Type == card.Type) && (topCard.Number == card.Number - 1);
 
 				return canPushAsFirstCard || canPushAsNextCard;
