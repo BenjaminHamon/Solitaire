@@ -56,10 +56,5 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 				}
 			}
 		}
-
-		public bool TryMoveCardPile(TableauCardPileView fromCardPile, TableauCardPileView toCardPile)
-		{
-			return Model.TryMoveCardPile(fromCardPile.Model, toCardPile.Model);
-		}
 	}
 }

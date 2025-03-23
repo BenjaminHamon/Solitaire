@@ -109,6 +109,76 @@ namespace BenjaminHamon.Solitaire.Model
 			}
 		}
 
+		public bool TryMoveCardPile(CardPile fromCardPile, CardPile toCardPile)
+		{
+			if ((fromCardPile is StockCardPile) || (toCardPile is StockCardPile))
+				return false;
+
+			if (toCardPile is WasteCardPile)
+				return false;
+
+			List<Card> allCardsToMove = null;
+
+			if (fromCardPile is TableauCardPile fromCardPileAsTableau)
+			{
+				foreach (Card card in fromCardPile.EnumerateCards())
+				{
+					if (card.Visible == false)
+						break;
+
+					if (toCardPile.CanPush(card))
+					{
+						allCardsToMove = fromCardPileAsTableau.EnumerateCardsFrom(card).ToList();
+						break;
+					}
+				}
+			}
+			else
+			{
+				if (fromCardPile.CanPop())
+				{
+					Card cardToMove = fromCardPile.Peek();
+
+					if (toCardPile.CanPush(cardToMove))
+					{
+						allCardsToMove = new List<Card>() { cardToMove };
+					}
+				}
+			}
+
+			if (allCardsToMove != null)
+			{
+				foreach (Card cardToMove in allCardsToMove.Reverse<Card>())
+				{
+					if (cardToMove.Parent.CanPop() == false)
+					{
+						throw new InvalidOperationException("Card to move cannot be popped");
+					}
+
+					Card poppedCard = fromCardPile.Pop();
+
+					if (poppedCard != cardToMove)
+					{
+						throw new InvalidOperationException("Popped card is not as expected");
+					}
+				}
+
+				foreach (Card cardToMove in allCardsToMove)
+				{
+					if (toCardPile.CanPush(cardToMove) == false)
+					{
+						throw new InvalidOperationException("Card to move cannot be pushed");
+					}
+
+					toCardPile.Push(cardToMove);
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
 		private void NotifyVictory()
 		{
 			if (Foundation.AreAllPilesCompleted())

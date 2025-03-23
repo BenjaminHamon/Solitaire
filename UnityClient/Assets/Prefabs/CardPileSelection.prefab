@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7832649277830702086}
   - component: {fileID: 4212256018106454602}
   m_Layer: 0
-  m_Name: TableauCardPileSelection
+  m_Name: CardPileSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

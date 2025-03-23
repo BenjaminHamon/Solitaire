@@ -13,14 +13,14 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 		[SerializeField]
 		private GameObject DraggingHandlerPrefab;
 		[SerializeField]
-		private GameObject TableauCardPileSelectionPrefab;
+		private GameObject CardPileSelectionPrefab;
 
 		public GameView Game;
 
 		private readonly MouseTracker MouseTracker = new MouseTracker();
 		private CardDraggingHandler DraggingHandler;
-		private TableauCardPileView TableauCardPileSelection;
-		private GameObject TableauCardPileSelectionGameObject;
+		private CardPileView CardPileSelection;
+		private GameObject CardPileSelectionGameObject;
 
 		private void Start()
 		{
@@ -35,11 +35,11 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 				= TryDrawOrResetStock()
 				|| TryRevealCard()
 				|| TryPushCardToFoundation()
-				|| TryMoveTableauCardPile();
+				|| TryMoveSelectedCardPile();
 
 			_ = performedGameChange
 				|| TryStartDraggingCard()
-				|| TrySelectTableauCardFile();
+				|| TrySelectCardFile();
 
 			MouseTracker.UpdateAfter();
 
@@ -103,20 +103,20 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 			return false;
 		}
 
-		private bool TryMoveTableauCardPile()
+		private bool TryMoveSelectedCardPile()
 		{
-			if (TableauCardPileSelection == null)
+			if (CardPileSelection == null)
 				return false;
 
 			if (MouseTracker.IsClick())
 			{
-				TableauCardPileView targetTableauCardPile = MouseTracker.CurrentMouseUpEvent.Collider.GetComponentInParent<TableauCardPileView>();
+				CardPileView targetCardPile = MouseTracker.CurrentMouseUpEvent.Collider.GetComponentInParent<CardPileView>();
 
-				if (targetTableauCardPile != null)
+				if (targetCardPile != null)
 				{
-					if (TableauCardPileSelection != targetTableauCardPile)
+					if (CardPileSelection != targetCardPile)
 					{
-						bool result = Game.Tableau.TryMoveCardPile(TableauCardPileSelection, targetTableauCardPile);
+						bool result = Game.TryMoveCardPile(CardPileSelection, targetCardPile);
 
 						if (result)
 						{
@@ -158,7 +158,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 			return false;
 		}
 
-		private bool TrySelectTableauCardFile()
+		private bool TrySelectCardFile()
 		{
 			if (MouseTracker.CurrentMouseUpEvent != null)
 			{
@@ -168,28 +168,34 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 
 					if (card != null)
 					{
-						if (card.Parent is TableauCardPileView tableauCardPile)
+						if (card.Parent is StockCardPileView)
+							return false;
+
+						if (CardPileSelection != card.Parent)
 						{
-							if (TableauCardPileSelection != tableauCardPile)
+							ClearSelection();
+
+							GameObject newSelectionObject = Instantiate(CardPileSelectionPrefab, transform);
+							newSelectionObject.name = "Selection";
+							newSelectionObject.transform.position = card.Parent.transform.position + new Vector3(0, 0, 1);
+
+							int cardCount = card.Parent.CardCount;
+							Rect cardSpriteRectangle = card.GetComponent<SpriteRenderer>().sprite.rect;
+							SpriteRenderer selectionSprite = newSelectionObject.GetComponent<SpriteRenderer>();
+
+							// (width + border, height + border) / scaling factor between rect and size
+							selectionSprite.size = new Vector2(cardSpriteRectangle.width + 20, cardSpriteRectangle.height + 20) / 100;
+
+							if (card.Parent is TableauCardPileView)
 							{
-								ClearSelection();
-
-								GameObject newSelectionObject = Instantiate(TableauCardPileSelectionPrefab, transform);
-								newSelectionObject.name = "Selection";
-								newSelectionObject.transform.position = card.Parent.transform.position + new Vector3(0, 0, 1);
-
-								int cardCount = card.Parent.CardCount;
-								Rect cardSpriteRectangle = card.GetComponent<SpriteRenderer>().sprite.rect;
-								SpriteRenderer selectionSprite = newSelectionObject.GetComponent<SpriteRenderer>();
-
-								// (width + border, height + card offset * card offset height + border) / scaling factor between rect and size
-								selectionSprite.size = new Vector2(cardSpriteRectangle.width + 20, cardSpriteRectangle.height + (cardCount - 1) * 50 + 20) / 100;
-
-								TableauCardPileSelection = tableauCardPile;
-								TableauCardPileSelectionGameObject = newSelectionObject;
-
-								return true;
+								// previous result + card offset * card offset height
+								selectionSprite.size += new Vector2(0, (cardCount - 1) * 0.5f);
 							}
+
+							CardPileSelection = card.Parent;
+							CardPileSelectionGameObject = newSelectionObject;
+
+							return true;
 						}
 					}
 				}
@@ -202,13 +208,13 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 
 		private void ClearSelection()
 		{
-			if (TableauCardPileSelection != null)
+			if (CardPileSelection != null)
 			{
-				Destroy(TableauCardPileSelectionGameObject);
+				Destroy(CardPileSelectionGameObject);
 			}
 
-			TableauCardPileSelection = null;
-			TableauCardPileSelectionGameObject = null;
+			CardPileSelection = null;
+			CardPileSelectionGameObject = null;
 		}
 	}
 }
