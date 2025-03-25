@@ -35,7 +35,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 				= TryDrawOrResetStock()
 				|| TryRevealCard()
 				|| TryPushCardToFoundation()
-				|| TryMoveSelectedCardPile();
+				|| TryMoveSelectedCardPile()
+				|| TryEndDraggingCard();
 
 			_ = performedGameChange
 				|| TryStartDraggingCard()
@@ -116,7 +117,7 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 				{
 					if (CardPileSelection != targetCardPile)
 					{
-						bool result = Game.TryMoveCardPile(CardPileSelection, targetCardPile);
+						bool result = Game.TryMoveCardsFromPile(CardPileSelection, targetCardPile);
 
 						if (result)
 						{
@@ -131,6 +132,31 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Controllers
 			return false;
 		}
 
+		private bool TryEndDraggingCard()
+		{
+			if (DraggingHandler == null)
+				return false;
+
+			if (MouseTracker.CurrentMouseUp != null)
+			{
+				bool moved = false;
+				CardView fromCard = DraggingHandler.Card;
+				CardPileView toCardPile = DraggingHandler.GetTarget();
+
+				if (toCardPile != null)
+				{
+					moved = Game.TryMoveCard(fromCard, toCardPile);
+					DraggingHandler.WasDroppedSuccessfully = moved;
+				}
+
+				Destroy(DraggingHandler);
+
+				return moved;
+			}
+
+			return false;
+		}
+		
 		private bool TryStartDraggingCard()
 		{
 			if (DraggingHandler != null)

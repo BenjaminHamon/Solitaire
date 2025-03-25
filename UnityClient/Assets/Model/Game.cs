@@ -109,7 +109,7 @@ namespace BenjaminHamon.Solitaire.Model
 			}
 		}
 
-		public bool TryMoveCardPile(CardPile fromCardPile, CardPile toCardPile)
+		public bool TryMoveCardsFromPile(CardPile fromCardPile, CardPile toCardPile)
 		{
 			if ((fromCardPile is StockCardPile) || (toCardPile is StockCardPile))
 				return false;
@@ -117,37 +117,54 @@ namespace BenjaminHamon.Solitaire.Model
 			if (toCardPile is WasteCardPile)
 				return false;
 
-			List<Card> allCardsToMove = null;
-
 			if (fromCardPile is TableauCardPile fromCardPileAsTableau)
 			{
 				foreach (Card card in fromCardPile.EnumerateCards())
 				{
-					if (card.Visible == false)
-						break;
-
-					if (toCardPile.CanPush(card))
+					if (TryMoveCard(card, toCardPile))
 					{
-						allCardsToMove = fromCardPileAsTableau.EnumerateCardsFrom(card).ToList();
-						break;
+						return true;
 					}
 				}
 			}
 			else
 			{
-				if (fromCardPile.CanPop())
-				{
-					Card cardToMove = fromCardPile.Peek();
+				return TryMoveCard(fromCardPile.Peek(), toCardPile);
+			}
 
-					if (toCardPile.CanPush(cardToMove))
-					{
-						allCardsToMove = new List<Card>() { cardToMove };
-					}
+			return false;
+		}
+
+		public bool TryMoveCard(Card fromCard, CardPile toCardPile)
+		{
+			if ((fromCard.Parent is StockCardPile) || (toCardPile is StockCardPile))
+				return false;
+
+			if (toCardPile is WasteCardPile)
+				return false;
+
+			List<Card> allCardsToMove = null;
+
+			if (toCardPile.CanPush(fromCard) == false)
+				return false;
+
+			if (fromCard.Parent is TableauCardPile fromCardPileAsTableau)
+			{
+				allCardsToMove = fromCardPileAsTableau.EnumerateCardsFrom(fromCard).ToList();
+			}
+			else
+			{
+				if (fromCard.Parent.CanPop())
+				{
+					allCardsToMove = new List<Card>() { fromCard };
 				}
 			}
 
 			if (allCardsToMove != null)
 			{
+				if ((toCardPile is FoundationCardPile) && (allCardsToMove.Count > 1))
+					return false;
+
 				foreach (Card cardToMove in allCardsToMove.Reverse<Card>())
 				{
 					if (cardToMove.Parent.CanPop() == false)
@@ -155,7 +172,7 @@ namespace BenjaminHamon.Solitaire.Model
 						throw new InvalidOperationException("Card to move cannot be popped");
 					}
 
-					Card poppedCard = fromCardPile.Pop();
+					Card poppedCard = fromCard.Parent.Pop();
 
 					if (poppedCard != cardToMove)
 					{

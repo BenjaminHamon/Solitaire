@@ -72,9 +72,14 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 			}
 		}
 
-		public bool TryMoveCardPile(CardPileView fromCardPile, CardPileView toCardPile)
+		public bool TryMoveCardsFromPile(CardPileView fromCardPile, CardPileView toCardPile)
 		{
-			return Model.TryMoveCardPile(fromCardPile.Model, toCardPile.Model);
+			return Model.TryMoveCardsFromPile(fromCardPile.Model, toCardPile.Model);
+		}
+
+		public bool TryMoveCard(CardView fromCard, CardPileView toCardPile)
+		{
+			return Model.TryMoveCard(fromCard.Model, toCardPile.Model);
 		}
 
 		private void HandleVictory()
