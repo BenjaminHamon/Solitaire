@@ -109,6 +109,93 @@ namespace BenjaminHamon.Solitaire.Model
 			}
 		}
 
+		public bool TryMoveCardsFromPile(CardPile fromCardPile, CardPile toCardPile)
+		{
+			if ((fromCardPile is StockCardPile) || (toCardPile is StockCardPile))
+				return false;
+
+			if (toCardPile is WasteCardPile)
+				return false;
+
+			if (fromCardPile is TableauCardPile fromCardPileAsTableau)
+			{
+				foreach (Card card in fromCardPile.EnumerateCards())
+				{
+					if (TryMoveCard(card, toCardPile))
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				return TryMoveCard(fromCardPile.Peek(), toCardPile);
+			}
+
+			return false;
+		}
+
+		public bool TryMoveCard(Card fromCard, CardPile toCardPile)
+		{
+			if ((fromCard.Parent is StockCardPile) || (toCardPile is StockCardPile))
+				return false;
+
+			if (toCardPile is WasteCardPile)
+				return false;
+
+			List<Card> allCardsToMove = null;
+
+			if (toCardPile.CanPush(fromCard) == false)
+				return false;
+
+			if (fromCard.Parent is TableauCardPile fromCardPileAsTableau)
+			{
+				allCardsToMove = fromCardPileAsTableau.EnumerateCardsFrom(fromCard).ToList();
+			}
+			else
+			{
+				if (fromCard.Parent.CanPop())
+				{
+					allCardsToMove = new List<Card>() { fromCard };
+				}
+			}
+
+			if (allCardsToMove != null)
+			{
+				if ((toCardPile is FoundationCardPile) && (allCardsToMove.Count > 1))
+					return false;
+
+				foreach (Card cardToMove in allCardsToMove.Reverse<Card>())
+				{
+					if (cardToMove.Parent.CanPop() == false)
+					{
+						throw new InvalidOperationException("Card to move cannot be popped");
+					}
+
+					Card poppedCard = fromCard.Parent.Pop();
+
+					if (poppedCard != cardToMove)
+					{
+						throw new InvalidOperationException("Popped card is not as expected");
+					}
+				}
+
+				foreach (Card cardToMove in allCardsToMove)
+				{
+					if (toCardPile.CanPush(cardToMove) == false)
+					{
+						throw new InvalidOperationException("Card to move cannot be pushed");
+					}
+
+					toCardPile.Push(cardToMove);
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
 		private void NotifyVictory()
 		{
 			if (Foundation.AreAllPilesCompleted())

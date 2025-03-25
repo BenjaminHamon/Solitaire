@@ -16,6 +16,8 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 		[SerializeField]
 		private GameObject CardPilePrefab;
 
+		private List<TableauCardPileView> PileCollection = new List<TableauCardPileView>();
+
 		public void SetUp(CardViewResolver cardViewResolver)
 		{
 			int pileIndex = 0;
@@ -32,7 +34,17 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 			}
 		}
 
-		private List<TableauCardPileView> PileCollection = new List<TableauCardPileView>();
+		private void AddCardPile(TableauCardPile tableauCardPile, int pileIndex)
+		{
+			GameObject newGameObject = Instantiate(CardPilePrefab);
+			newGameObject.name = String.Format("TableauCardPile {0}", pileIndex + 1);
+			newGameObject.transform.SetParent(transform);
+
+			TableauCardPileView tableauCardPileView = newGameObject.GetComponent<TableauCardPileView>();
+			tableauCardPileView.Model = tableauCardPile;
+
+			PileCollection.Add(tableauCardPileView);
+		}
 
 		public IEnumerable<CardView> EnumerateCards()
 		{
@@ -43,18 +55,6 @@ namespace BenjaminHamon.Solitaire.UnityClient.Runtime.Views
 					yield return card;
 				}
 			}
-		}
-
-		public void AddCardPile(TableauCardPile tableauCardPile, int pileIndex)
-		{
-			GameObject newGameObject = Instantiate(CardPilePrefab);
-			newGameObject.name = String.Format("TableauCardPile {0}", pileIndex + 1);
-			newGameObject.transform.SetParent(transform);
-
-			TableauCardPileView tableauCardPileView = newGameObject.GetComponent<TableauCardPileView>();
-			tableauCardPileView.Model = tableauCardPile;
-
-			PileCollection.Add(tableauCardPileView);
 		}
 	}
 }
