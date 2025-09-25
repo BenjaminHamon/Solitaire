@@ -1,0 +1,35 @@
+---
+
+name: Development pipeline
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+# FIXME
+  push:
+    branches:
+      - wip/*
+
+jobs:
+
+  build_for_windows:
+    name: Build for Windows
+    runs-on: windows-latest
+
+    env:
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+    steps:
+
+      - name: Checkout sources
+        uses: actions/checkout@v5
+
+      - name: Build the application
+        uses: game-ci/unity-builder@v4
+        with:
+          projectPath: UnityClient
+          targetPlatform: StandaloneWindows64
